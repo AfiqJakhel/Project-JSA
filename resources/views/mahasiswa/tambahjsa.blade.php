@@ -2177,7 +2177,7 @@ refreshStats(); // Initial load
                         return;
                     }
 
-                    workStepCounter;
+                    workStepCounter += 1;
                     const template = workStepTemplate.content.cloneNode(true);
                     const workStepDiv = template.querySelector('.work-step-item');
                     
@@ -2209,7 +2209,7 @@ refreshStats(); // Initial load
                             workStepDiv.remove();
                             // Reorder step numbers
                             document.querySelectorAll('.work-step-item').forEach((item, index) => {
-                                item.querySelector('.step-number').textContent = index  1;
+                                item.querySelector('.step-number').textContent = index + 1;
                             });
                         }
                     });
@@ -2228,7 +2228,7 @@ refreshStats(); // Initial load
                         return;
                     }
 
-                    inspectionAreaCounter;
+                    inspectionAreaCounter += 1;
                     const template = inspectionAreaTemplate.content.cloneNode(true);
                     const inspectionAreaDiv = template.querySelector('.inspection-area-item');
                     
@@ -2261,7 +2261,7 @@ refreshStats(); // Initial load
                             inspectionAreaDiv.remove();
                             // Reorder area numbers
                             document.querySelectorAll('.inspection-area-item').forEach((item, index) => {
-                                item.querySelector('.area-number').textContent = index  1;
+                                item.querySelector('.area-number').textContent = index + 1;
                             });
                         }
                     });
@@ -2598,4 +2598,3 @@ refreshStats(); // Initial load
     </script>
 </body>
 </html>
-EOF

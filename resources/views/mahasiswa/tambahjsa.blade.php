@@ -1654,7 +1654,7 @@ refreshStats(); // Initial load
                     
                     let inputsHtml = '';
                     selectedMahasiswa.forEach(m => {
-                        inputsHtml = `<input type="hidden" name="mahasiswas[]" value="${m.id}">`;
+                        inputsHtml += `<input type="hidden" name="mahasiswas[]" value="${m.id}">`;
                     });
                     container.innerHTML = inputsHtml;
                 }
@@ -1666,7 +1666,7 @@ refreshStats(); // Initial load
                     
                     let inputsHtml = '';
                     selectedDosen.forEach(d => {
-                        inputsHtml = `<input type="hidden" name="dosens[]" value="${d.id}">`;
+                        inputsHtml += `<input type="hidden" name="dosens[]" value="${d.id}">`;
                     });
                     container.innerHTML = inputsHtml;
                 }
@@ -1692,6 +1692,8 @@ refreshStats(); // Initial load
                     addPpeSection(id, mahasiswaLabel);
                     updateSelectedMahasiswaList();
                     updateSearchResults();
+                    updateMahasiswaHiddenInputs();
+                    updateJsaNumberPreview();
                     
                     // Show success message
                     showSuccessMessage(`${mahasiswaNama} berhasil ditambahkan`);
@@ -1755,6 +1757,8 @@ refreshStats(); // Initial load
                     removePpeSection(id);
                     updateSelectedMahasiswaList();
                     updateSearchResults();
+                    updateMahasiswaHiddenInputs();
+                    updateJsaNumberPreview();
                     
                     showSuccessMessage(`${mahasiswaNama} berhasil dihapus`);
                 }
@@ -1967,6 +1971,8 @@ refreshStats(); // Initial load
 
                     updateSelectedDosenList();
                     updateDosenSearchResults();
+                    updateDosenHiddenInputs();
+                    updateJsaNumberPreview();
                     
                     // Success message
                     const successMessage = document.createElement('div');
@@ -2033,6 +2039,8 @@ refreshStats(); // Initial load
                     selectedDosen.delete(id);
                     updateSelectedDosenList();
                     updateDosenSearchResults();
+                    updateDosenHiddenInputs();
+                    updateJsaNumberPreview();
                     
                     showSuccessMessage(`${dosenNama} berhasil dihapus`);
                 }
@@ -2165,6 +2173,28 @@ refreshStats(); // Initial load
                             }
                         }, 300);
                     }, 2000);
+                }
+
+                // Generate and update Nomor JSA preview when required fields are ready
+                function updateJsaNumberPreview() {
+                    const previewInput = document.getElementById('jsaNumberPreview');
+                    if (!previewInput) return;
+
+                    const semester = document.getElementById('semester')?.value?.trim();
+                    const matakuliah = document.getElementById('matakuliah')?.value?.trim();
+                    const kelas = document.getElementById('kelas')?.value?.trim();
+                    const tanggal = document.getElementById('tanggal_pelaksanaan')?.value?.trim();
+                    const hasDosen = selectedDosen.size > 0;
+
+                    if (semester && matakuliah && kelas && tanggal && hasDosen) {
+                        const datePart = tanggal.replaceAll('-', '');
+                        const mkPart = (matakuliah || '').toUpperCase().replace(/\s+/g, '').slice(0, 6);
+                        const kelasPart = (kelas || '').toUpperCase().replace(/\s+/g, '');
+                        const seq = Math.floor(Math.random() * 9000 + 1000);
+                        previewInput.value = `JSA-${semester}-${kelasPart}-${datePart}-${mkPart}-${seq}`;
+                    } else {
+                        previewInput.value = '';
+                    }
                 }
 
                 // Add Work Step functionality
@@ -2388,6 +2418,14 @@ refreshStats(); // Initial load
                     });
                 }
 
+                // Update JSA number preview when required fields change
+                ;['semester','matakuliah','kelas','tanggal_pelaksanaan'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.addEventListener('input', updateJsaNumberPreview);
+                });
+                // initial preview computation
+                updateJsaNumberPreview();
+
                 // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {
                     if (dosenSearchResults && !dosenSearch.contains(e.target) && !dosenSearchResults.contains(e.target)) {
@@ -2598,4 +2636,3 @@ refreshStats(); // Initial load
     </script>
 </body>
 </html>
-EOF

@@ -59,10 +59,6 @@ class JSAController extends Controller
         Log::info('Dosens array count:', ['count' => count($request->input('dosens', []))]);
         Log::info('Mahasiswas array count:', ['count' => count($request->input('mahasiswas', []))]);
         
-        // Debug: Check if dosens field exists in request
-        Log::info('Request has dosens field:', ['has_dosens' => $request->has('dosens')]);
-        Log::info('All request keys:', ['keys' => array_keys($request->all())]);
-        Log::info('All request data with values:', $request->all());
         
         // Check for different possible field names
         Log::info('Checking different field names:', [
@@ -84,17 +80,11 @@ class JSAController extends Controller
         Log::info('Potensi bahaya array:', $request->input('potensi_bahaya', []));
         Log::info('Upaya pengendalian array:', $request->input('upaya_pengendalian', []));
         // Custom validation untuk dosen dengan penanganan yang lebih fleksibel
-        $dosens = $request->input('dosens', []);
-        
-        // Try different field names if dosens is empty
-        if (empty($dosens)) {
+        $dosens = $request->input('dosens', $request->input('dosens[]', []));
+
+        // Jika $dosens bukan array, coba cari dari field lain
+        if (!is_array($dosens)) {
             $dosens = $request->input('dosens[]', []);
-        }
-        if (empty($dosens)) {
-            $dosens = $request->input('dosen', []);
-        }
-        if (empty($dosens)) {
-            $dosens = $request->input('dosen[]', []);
         }
         
         Log::info('Dosens validation check:', [
@@ -105,7 +95,7 @@ class JSAController extends Controller
             'all_request_data' => $request->all()
         ]);
         
-        if (empty($dosens)) {
+        if (empty($dosens) || !is_array($dosens) || count($dosens) === 0) {
             return back()->withInput()->withErrors(['dosens' => 'Minimal harus memilih satu dosen pembimbing']);
         }
         
@@ -133,7 +123,7 @@ class JSAController extends Controller
             'dosens_type' => gettype($dosens)
         ]);
 
-        // Custom validation untuk work steps (more flexible)
+        // Custom validation for work steps (more flexible)
         $potensiBahaya = $request->input('potensi_bahaya', []);
         $upayaPengendalian = $request->input('upaya_pengendalian', []);
         $urutanPekerjaan = $request->input('urutan_pekerjaan', []);
@@ -218,7 +208,7 @@ class JSAController extends Controller
                     $totalJsa = DB::table('jsas')->lockForUpdate()->count();
                     $noJsa = 'JSA-' . str_pad($totalJsa + 1, 4, '0', STR_PAD_LEFT);
                     
-                    // 1. Simpan JSA (tanpa urutan_kerja, potensi_bahaya, upaya_pengendalian)
+                    // 1. Simpan JSA (tanpa urutan_pekerjaan, potensi_bahaya, upaya_pengendalian)
                     $jsa = Jsa::create([
                         'kelas' => $request->kelas,
                         'prodi' => $request->semester, // menggunakan semester sebagai prodi
@@ -236,7 +226,7 @@ class JSAController extends Controller
                     // 2. Simpan Work Steps - more flexible approach
                     $potensiBahaya = $request->input('potensi_bahaya', []);
                     $upayaPengendalian = $request->input('upaya_pengendalian', []);
-                    $urutanPekerjaan = $request->input('urutan_pekerjaan', []);
+                    $urutanPekerjaan = $request->input('urutan_pekerjaan',[]);
                     
                     // Save work steps - more flexible approach
                     foreach ($urutanPekerjaan as $index => $urutan) {

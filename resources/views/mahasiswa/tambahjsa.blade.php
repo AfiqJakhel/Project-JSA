@@ -1323,7 +1323,7 @@
                         <div class="form-group">
                             <label class="form-label" for="workStepInput">Tambah Urutan Pekerjaan</label>
                             <div class="input-group">
-                                <input type="text" id="workStepInput" name="urutan_pekerjaan[]" class="form-input" placeholder="Masukkan urutan pekerjaan (contoh: Persiapan alat, Pemeriksaan area, dll)">
+                                <input type="text" id="workStepInput" class="form-input" placeholder="Masukkan urutan pekerjaan (contoh: Persiapan alat, Pemeriksaan area, dll)">
                                 <button type="button" id="addWorkStep" class="btn btn-primary">Tambah</button>
                             </div>
                         </div>
@@ -1384,36 +1384,17 @@
                     </div>
                 </div>
 
+                <!-- Tombol Aksi -->
+                <div class="mt-8 pt-5">
+                    <button type="submit" class="btn btn-primary w-full">Simpan JSA</button>
+                </div>
+
                 <!-- Hidden inputs untuk form submission -->
-                <div id="dosenInputs"></div>
                 <div id="mahasiswaInputs"></div>
-
-                <!-- Debug Panel (akan dihilangkan setelah debugging selesai) -->
-                <div id="debugPanel" style="display: none; background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 20px 0; border-radius: 8px;">
-                    <h4>Debug Info:</h4>
-                    <div id="debugContent"></div>
-                </div>
-
-                                <!-- Submit Section -->
-                <div class="submit-section">
-                    <button type="button" id="debugBtn" class="btn btn-secondary" style="margin-right: 10px;">
-                        <i class="fas fa-bug"></i> Debug Info
-                    </button>
-                    <button type="submit" id="submitBtn" class="btn btn-submit">
-                        <span class="btn-text">
-                            <i class="fas fa-save"></i> Kirim JSA
-                        </span>
-                        <span class="loading">
-                            <i class="fas fa-spinner fa-spin"></i> Menyimpan...
-                        </span>
-                    </button>
-                </div>
-
-
-
-    </form>
+                <div id="dosenInputs"></div>
+            </form>
         </div>
-</div>
+    </div>
 
 <!-- Race Condition Monitoring Dashboard (Admin Only) -->
 @if(auth('mahasiswa')->user()->role === 'admin')
@@ -1485,28 +1466,28 @@ refreshStats(); // Initial load
             <div class="ppe-grid">
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_shelmet[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_shelmet[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Safety Helmet
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_sgloves[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_sgloves[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Safety Gloves
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_shoes[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_shoes[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Safety Shoes
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_sglasses[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_sglasses[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Safety Glasses
                     </label>
@@ -1515,28 +1496,28 @@ refreshStats(); // Initial load
             <div class="ppe-grid-bottom">
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_svest[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_svest[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Safety Vest
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_earplug[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_earplug[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Earplug
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_fmask[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_fmask[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Face Mask
                     </label>
                 </div>
                 <div class="ppe-item">
                     <label class="ppe-checkbox-label">
-                        <input type="checkbox" name="apd_respiratory[]" class="ppe-checkbox" data-mahasiswa-id="">
+                        <input type="checkbox" name="apd_respiratory[]" class="ppe-checkbox" data-mahasiswa-id="" value="">
                         <span class="checkmark"></span>
                         Respiratory Protection
                     </label>
@@ -2109,12 +2090,16 @@ refreshStats(); // Initial load
                         const mahasiswaIdInput = ppeDiv.querySelector('.mahasiswa-id-input');
                         if (mahasiswaIdInput) {
                             mahasiswaIdInput.value = mahasiswaId;
+                            console.log('Set mahasiswa_id input value:', mahasiswaId);
+                        } else {
+                            console.error('mahasiswa-id-input not found in PPE div');
                         }
                         
-                        // Set data-mahasiswa-id for all APD checkboxes
+                        // Set data-mahasiswa-id and value for all APD checkboxes
                         const apdCheckboxes = ppeDiv.querySelectorAll('.ppe-checkbox');
                         apdCheckboxes.forEach(checkbox => {
                             checkbox.setAttribute('data-mahasiswa-id', mahasiswaId);
+                            checkbox.value = mahasiswaId; // Set value to mahasiswaId
                         });
                         
                         // Check if this is the current mahasiswa (owner)
@@ -2199,9 +2184,18 @@ refreshStats(); // Initial load
 
                 // Add Work Step functionality
                 function addWorkStep() {
-                    if (!workStepInput || !workStepsList || !workStepTemplate) return;
+                    console.log('addWorkStep function called');
+                    console.log('workStepInput:', workStepInput);
+                    console.log('workStepsList:', workStepsList);
+                    console.log('workStepTemplate:', workStepTemplate);
+                    
+                    if (!workStepInput || !workStepsList || !workStepTemplate) {
+                        console.log('One or more elements not found, returning...');
+                        return;
+                    }
                     
                     const stepText = workStepInput.value.trim();
+                    console.log('Step text:', stepText);
                     if (!stepText) {
                         alert('Masukkan urutan pekerjaan');
                         return;
@@ -2215,6 +2209,8 @@ refreshStats(); // Initial load
                     workStepDiv.querySelector('.step-number').textContent = workStepCounter;
                     workStepDiv.querySelector('.step-text').textContent = stepText;
                     workStepDiv.querySelector('.step-description-input').value = stepText;
+                    console.log('Hidden input value set to:', stepText);
+                    console.log('Hidden input element:', workStepDiv.querySelector('.step-description-input'));
                     
                     // Add event listeners
                     const toggleBtn = workStepDiv.querySelector('.btn-toggle-hazards');
@@ -2245,6 +2241,9 @@ refreshStats(); // Initial load
                     });
                     
                     workStepsList.appendChild(workStepDiv);
+                    console.log('Work step added to DOM');
+                    console.log('Total work steps in DOM:', document.querySelectorAll('.work-step-item').length);
+                    console.log('Total urutan_pekerjaan inputs in DOM:', document.querySelectorAll('input[name="urutan_pekerjaan[]"]').length);
                     workStepInput.value = '';
                 }
 
@@ -2393,7 +2392,14 @@ refreshStats(); // Initial load
                 }
 
                 if (addWorkStepBtn) {
-                    addWorkStepBtn.addEventListener('click', addWorkStep);
+                    console.log('Adding click event listener to addWorkStepBtn');
+                    addWorkStepBtn.addEventListener('click', function(e) {
+                        console.log('Add Work Step button clicked!');
+                        e.preventDefault();
+                        addWorkStep();
+                    });
+                } else {
+                    console.log('addWorkStepBtn not found!');
                 }
 
                 if (workStepInput) {
@@ -2499,35 +2505,31 @@ refreshStats(); // Initial load
                         e.preventDefault();
                         console.log('Form submission started...');
                         
-                        // Sync hidden inputs for selected mahasiswa and dosen
-                        const mahasiswaInputs = document.getElementById('mahasiswaInputs');
-                        const dosenInputsContainer = document.getElementById('dosenInputs');
+                        // Hapus input tersembunyi yang mungkin sudah ada untuk menghindari duplikasi
+                        form.querySelectorAll('input[name="mahasiswas[]"]').forEach(input => input.remove());
+                        form.querySelectorAll('input[name="dosens[]"]').forEach(input => input.remove());
+
+                        // Buat dan tambahkan input tersembunyi baru langsung ke form
+                        console.log('Creating mahasiswa inputs for', selectedMahasiswa.size, 'mahasiswa');
+                        console.log('Creating mahasiswa inputs for', selectedMahasiswa.size, 'mahasiswa');
+                        console.log('Selected mahasiswa:', Array.from(selectedMahasiswa.values()));
+                        selectedMahasiswa.forEach(mahasiswa => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'mahasiswas[]';
+                            input.value = mahasiswa.id;
+                            form.appendChild(input);
+                            console.log('Added mahasiswa input:', mahasiswa.id);
+                        });
                         
-                        if (mahasiswaInputs) {
-                            mahasiswaInputs.innerHTML = '';
-                            console.log('Creating mahasiswa inputs for', selectedMahasiswa.size, 'mahasiswa');
-                            selectedMahasiswa.forEach(mahasiswa => {
-                                const input = document.createElement('input');
-                                input.type = 'hidden';
-                                input.name = 'mahasiswas[]';
-                                input.value = mahasiswa.id;
-                                mahasiswaInputs.appendChild(input);
-                            });
-                        }
-                        
-                        if (dosenInputsContainer) {
-                            dosenInputsContainer.innerHTML = '';
-                            console.log('Creating dosen inputs for', selectedDosen.size, 'dosen');
-                            selectedDosen.forEach((dosen, key) => {
-                                const input = document.createElement('input');
-                                input.type = 'hidden';
-                                input.name = 'dosens[]';
-                                input.value = key; // key = dosenId
-                                dosenInputsContainer.appendChild(input);
-                            });
-                        } else {
-                            console.error('dosenInputsContainer not found!');
-                        }
+                        console.log('Creating dosen inputs for', selectedDosen.size, 'dosen');
+                        selectedDosen.forEach((dosen, key) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'dosens[]';
+                            input.value = dosen.id; // key = dosenId
+                            form.appendChild(input);
+                        });
                         
                         // Additional validation for required fields
                         const semester = document.getElementById('semester')?.value?.trim();
@@ -2586,10 +2588,27 @@ refreshStats(); // Initial load
 
                         // Validate work steps
                         const workSteps = document.querySelectorAll('.work-step-item');
+                        console.log('Work steps validation - count:', workSteps.length);
+                        console.log('Work steps elements:', workSteps);
+                        console.log('urutan_pekerjaan inputs in DOM:', document.querySelectorAll('input[name="urutan_pekerjaan[]"]'));
+                        console.log('urutan_pekerjaan input values:', Array.from(document.querySelectorAll('input[name="urutan_pekerjaan[]"]')).map(input => input.value));
+                        
                         if (workSteps.length === 0) {
                             alert('⚠️ Minimal harus ada satu urutan pekerjaan!');
                             return;
                         }
+
+                        // Pastikan input urutan_pekerjaan[] ada di dalam form
+                        const urutanPekerjaanInputs = document.querySelectorAll('input[name="urutan_pekerjaan[]"]');
+                        console.log('Found urutan_pekerjaan inputs in DOM:', urutanPekerjaanInputs.length);
+                        urutanPekerjaanInputs.forEach((input, index) => {
+                            console.log(`urutan_pekerjaan[${index}]:`, input.value);
+                            // Pastikan input berada di dalam form
+                            if (!form.contains(input)) {
+                                console.log('Moving input to form:', input);
+                                form.appendChild(input);
+                            }
+                        });
 
                         // Validate inspection areas
                         const inspectionAreas = document.querySelectorAll('.inspection-area-item');
@@ -2605,9 +2624,56 @@ refreshStats(); // Initial load
                             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
                         }
                         
-                        // Submit form
-                        console.log('Submitting form...');
-                        form.submit();
+
+                        
+                        console.log('Submitting form...');        
+                        // Debug mahasiswa_ids inputs
+                        const mahasiswaIdInputs = document.querySelectorAll('input[name="mahasiswa_ids[]"]');
+                        console.log('mahasiswa_ids[] inputs found:', mahasiswaIdInputs.length);
+                        mahasiswaIdInputs.forEach((input, index) => {
+                            console.log(`mahasiswa_ids[${index}]:`, input.value);
+                        });
+                        
+                        // PENTING: Pastikan semua input APD berada di dalam form
+                        // Ambil semua input mahasiswa_ids[] dan APD checkboxes
+                        const allMahasiswaIdInputs = document.querySelectorAll('input[name="mahasiswa_ids[]"]');
+                        const allApdCheckboxes = document.querySelectorAll('input[name^="apd_"]');
+                        
+                        console.log('Found mahasiswa_ids inputs:', allMahasiswaIdInputs.length);
+                        console.log('Found APD checkboxes:', allApdCheckboxes.length);
+                        
+                        // Pastikan semua input berada di dalam form
+                        allMahasiswaIdInputs.forEach((input, index) => {
+                            if (!form.contains(input)) {
+                                console.log(`Moving mahasiswa_ids[${index}] to form:`, input.value);
+                                form.appendChild(input);
+                            }
+                        });
+                        
+                        allApdCheckboxes.forEach((checkbox, index) => {
+                            if (!form.contains(checkbox)) {
+                                console.log(`Moving APD checkbox[${index}] to form:`, checkbox.name, checkbox.checked);
+                                form.appendChild(checkbox);
+                            }
+                        });
+                        
+                        // Debug final state
+                        const finalMahasiswaIds = form.querySelectorAll('input[name="mahasiswa_ids[]"]');
+                        const finalApdCheckboxes = form.querySelectorAll('input[name^="apd_"]');
+                        console.log('Final mahasiswa_ids in form:', finalMahasiswaIds.length);
+                        console.log('Final APD checkboxes in form:', finalApdCheckboxes.length);
+                        
+                        finalMahasiswaIds.forEach((input, index) => {
+                            console.log(`mahasiswa_ids[${index}]:`, input.value);
+                        });
+                        
+                        finalApdCheckboxes.forEach((checkbox, index) => {
+                            if (checkbox.checked) {
+                                console.log(`APD checked[${index}]:`, checkbox.name, checkbox.value);
+                            }
+                        });
+                        
+                        form.submit(); // Submit the form programmatically
                     });
                 }
 

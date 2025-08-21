@@ -1051,6 +1051,10 @@
                 <!-- PPE Completeness Section -->
                 <div class="form-section">
                     <h2 class="section-title">Kelengkapan APD per Mahasiswa</h2>
+                    
+                    <!-- Debug Info -->
+
+                    
                     <div class="ppe-container" id="ppeContainer">
                         @foreach($jsa->mahasiswas as $mahasiswa)
                             @php $apd = $jsa->apds->where('id_mhs', $mahasiswa->id)->first(); @endphp
@@ -1802,6 +1806,9 @@
                 });
             });
 
+            // Initialize selected dosen Map first
+            const selectedDosen = new Map();
+            
             // Initialize selected dosen from existing data
             @foreach($jsa->dosens as $dosen)
                 selectedDosen.set('{{ $dosen->id }}', {
@@ -1863,12 +1870,11 @@
             if (searchMahasiswaBtn) {
                 searchMahasiswaBtn.addEventListener('click', searchMahasiswa);
             }
-
+            
             // Dosen search functionality
             const dosenSearch = document.getElementById('dosenSearch');
             const dosenSearchResults = document.getElementById('dosenSearchResults');
             const selectedDosens = document.getElementById('selectedDosens');
-            const selectedDosen = new Map();
 
             if (dosenSearch) {
                 dosenSearch.addEventListener('keypress', function(e) {

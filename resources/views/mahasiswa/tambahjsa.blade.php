@@ -1841,18 +1841,18 @@ refreshStats(); // Initial load
                         const isSelected = selectedMahasiswa.has(mahasiswa.id.toString());
                         const isOwner = mahasiswa.id.toString() === currentMahasiswaId;
                         const ownerText = isOwner ? ' (Anda)' : '';
-                        
-                        return (
-                            '<div class="search-result-item" data-id="'  mahasiswa.id  '" data-nim="'  mahasiswa.nim  '" data-nama="'  mahasiswa.nama  '">' 
-                                '<div class="search-result-info">' 
-                                    '<div class="search-result-nim">'  mahasiswa.nim  ownerText  '</div>' 
-                                    '<div class="search-result-nama">'  mahasiswa.nama  '</div>' 
-                                '</div>' 
-                                '<div class="search-result-action">' 
-                                    (isSelected ? '<span style="color: #27ae60;">✓ Sudah dipilih</span>' : '<button type="button" class="btn btn-sm btn-primary add-mahasiswa-btn">Pilih</button>') 
-                                '</div>' 
-                            '</div>'
-                        );
+
+                        return `
+                            <div class="search-result-item" data-id="${mahasiswa.id}" data-nim="${mahasiswa.nim}" data-nama="${mahasiswa.nama}">
+                                <div class="search-result-info">
+                                    <div class="search-result-nim">${mahasiswa.nim}${ownerText}</div>
+                                    <div class="search-result-nama">${mahasiswa.nama}</div>
+                                </div>
+                                <div class="search-result-action">
+                                    ${isSelected ? '<span style="color: #27ae60;">✓ Sudah dipilih</span>' : '<button type="button" class="btn btn-sm btn-primary add-mahasiswa-btn">Pilih</button>'}
+                                </div>
+                            </div>
+                        `;
                     }).join('');
 
                     searchResults.innerHTML = resultsHtml;
@@ -1920,18 +1920,18 @@ refreshStats(); // Initial load
 
                     const resultsHtml = dosens.map(dosen => {
                         const isSelected = selectedDosen.has(dosen.id.toString());
-                        
-                        return (
-                            '<div class="search-result-item" data-id="'  dosen.id  '" data-nip="'  dosen.nip  '" data-nama="'  dosen.nama  '">' 
-                                '<div class="search-result-info">' 
-                                    '<div class="search-result-nim">'  dosen.nip  '</div>' 
-                                    '<div class="search-result-nama">'  dosen.nama  '</div>' 
-                                '</div>' 
-                                '<div class="search-result-action">' 
-                                    (isSelected ? '<span style="color: #27ae60;">✓ Sudah dipilih</span>' : '<button type="button" class="btn btn-sm btn-primary add-dosen-btn">Pilih</button>') 
-                                '</div>' 
-                            '</div>'
-                        );
+
+                        return `
+                            <div class="search-result-item" data-id="${dosen.id}" data-nip="${dosen.nip}" data-nama="${dosen.nama}">
+                                <div class="search-result-info">
+                                    <div class="search-result-nim">${dosen.nip}</div>
+                                    <div class="search-result-nama">${dosen.nama}</div>
+                                </div>
+                                <div class="search-result-action">
+                                    ${isSelected ? '<span style="color: #27ae60;">✓ Sudah dipilih</span>' : '<button type="button" class="btn btn-sm btn-primary add-dosen-btn">Pilih</button>'}
+                                </div>
+                            </div>
+                        `;
                     }).join('');
 
                     dosenSearchResults.innerHTML = resultsHtml;
@@ -2095,7 +2095,7 @@ refreshStats(); // Initial load
                         
                         const ppeTitle = ppeDiv.querySelector('.ppe-title');
                         if (ppeTitle) {
-                            ppeTitle.textContent = 'APD untuk '  mahasiswaLabel;
+                            ppeTitle.textContent = `APD untuk ${mahasiswaLabel}`;
                         }
                         
                         const mahasiswaIdInput = ppeDiv.querySelector('.mahasiswa-id-input');
@@ -2121,7 +2121,7 @@ refreshStats(); // Initial load
                             } else {
                                 removeBtn.addEventListener('click', function(e) {
                                     e.preventDefault();
-                                    if (confirm('Yakin ingin menghapus APD untuk '  mahasiswaLabel  '?')) {
+                                    if (confirm(`Yakin ingin menghapus APD untuk ${mahasiswaLabel}?`)) {
                                         ppeDiv.remove();
                                         selectedMahasiswa.delete(mahasiswaId.toString());
                                         updateSelectedMahasiswaList();
@@ -2142,7 +2142,7 @@ refreshStats(); // Initial load
 
                 // Remove PPE section
                 function removePpeSection(mahasiswaId) {
-                    const ppeSection = document.querySelector('.ppe-section[data-mahasiswa-id="'  mahasiswaId  '"]');
+                    const ppeSection = document.querySelector(`.ppe-section[data-mahasiswa-id="${mahasiswaId}"]`);
                     if (ppeSection) {
                         ppeSection.remove();
                     }

@@ -54,31 +54,9 @@ class JSAController extends Controller
     {
         // Debug: Log semua data yang diterima
         Log::info('JSA Store Request Data:', $request->all());
-        Log::info('Mahasiswas array:', $request->input('mahasiswas', []));
-        Log::info('Dosens array:', $request->input('dosens', []));
-        Log::info('Dosens array count:', ['count' => count($request->input('dosens', []))]);
-        Log::info('Mahasiswas array count:', ['count' => count($request->input('mahasiswas', []))]);
         
         
-        // Check for different possible field names
-        Log::info('Checking different field names:', [
-            'dosens' => $request->input('dosens'),
-            'dosens[]' => $request->input('dosens[]'),
-            'dosen' => $request->input('dosen'),
-            'dosen[]' => $request->input('dosen[]'),
-            'dosen_id' => $request->input('dosen_id'),
-            'dosen_ids' => $request->input('dosen_ids'),
-            'dosen_ids[]' => $request->input('dosen_ids[]')
-        ]);
-        
-        // Check raw input
-        Log::info('Raw input check:', [
-            'raw_dosens' => $request->get('dosens'),
-            'raw_dosens_array' => $request->get('dosens[]'),
-            'all_raw' => $request->all()
-        ]);
-        Log::info('Potensi bahaya array:', $request->input('potensi_bahaya', []));
-        Log::info('Upaya pengendalian array:', $request->input('upaya_pengendalian', []));
+
         // Custom validation untuk dosen dengan penanganan yang lebih fleksibel
         $dosens = $request->input('dosens', $request->input('dosens[]', []));
 
@@ -87,13 +65,7 @@ class JSAController extends Controller
             $dosens = $request->input('dosens[]', []);
         }
         
-        Log::info('Dosens validation check:', [
-            'dosens_input' => $dosens,
-            'dosens_type' => gettype($dosens),
-            'dosens_count' => is_array($dosens) ? count($dosens) : 'not array',
-            'dosens_empty' => empty($dosens),
-            'all_request_data' => $request->all()
-        ]);
+
         
         if (empty($dosens) || !is_array($dosens) || count($dosens) === 0) {
             return back()->withInput()->withErrors(['dosens' => 'Minimal harus memilih satu dosen pembimbing']);
@@ -117,25 +89,14 @@ class JSAController extends Controller
             }
         }
         
-        Log::info('Dosens after validation:', [
-            'dosens' => $dosens,
-            'dosens_count' => count($dosens),
-            'dosens_type' => gettype($dosens)
-        ]);
+
 
         // Custom validation for work steps (more flexible)
         $potensiBahaya = $request->input('potensi_bahaya', []);
         $upayaPengendalian = $request->input('upaya_pengendalian', []);
         $urutanPekerjaan = $request->input('urutan_pekerjaan', []);
         
-        Log::info('Work steps validation:', [
-            'potensi_bahaya_count' => count($potensiBahaya),
-            'upaya_pengendalian_count' => count($upayaPengendalian),
-            'urutan_pekerjaan_count' => count($urutanPekerjaan),
-            'potensi_bahaya' => $potensiBahaya,
-            'upaya_pengendalian' => $upayaPengendalian,
-            'urutan_pekerjaan' => $urutanPekerjaan
-        ]);
+
         
         // Check if there are any work steps (more flexible validation)
         $hasWorkSteps = false;
@@ -181,14 +142,6 @@ class JSAController extends Controller
         $tindakanKorektif = $request->input('tindakan_korektif', []);
         $tanggalSelesai = $request->input('tanggal_selesai', []);
 
-        // Debug: Log inspection data
-        Log::info('Inspection areas validation data:', [
-            'area_inspeksi' => $areaInspeksi,
-            'item_inspeksi' => $itemInspeksi,
-            'area_count' => count($areaInspeksi),
-            'item_count' => count($itemInspeksi)
-        ]);
-
         // Only validate if there are inspection items
         if (!empty($itemInspeksi)) {
             // Check if there are items but no areas
@@ -228,6 +181,11 @@ class JSAController extends Controller
                     $upayaPengendalian = $request->input('upaya_pengendalian', []);
                     $urutanPekerjaan = $request->input('urutan_pekerjaan',[]);
                     
+                    // Prepare data untuk update tabel JSA
+                    $urutanKerjaArray = [];
+                    $potensiBahayaArray = [];
+                    $upayaPengendalianArray = [];
+                    
                     // Save work steps - more flexible approach
                     foreach ($urutanPekerjaan as $index => $urutan) {
                         if (!empty(trim($urutan))) {
@@ -241,8 +199,20 @@ class JSAController extends Controller
                                 'potensi_bahaya' => $potensi ?: 'Belum diisi',
                                 'upaya_pengendalian' => $upaya ?: 'Belum diisi'
                             ]);
+                            
+                            // Collect data untuk update tabel JSA
+                            $urutanKerjaArray[] = trim($urutan);
+                            $potensiBahayaArray[] = $potensi ?: 'Belum diisi';
+                            $upayaPengendalianArray[] = $upaya ?: 'Belum diisi';
                         }
                     }
+                    
+                    // Update tabel JSA dengan data work steps
+                    $jsa->update([
+                        'urutan_kerja' => implode(' | ', $urutanKerjaArray),
+                        'potensi_bahaya' => implode(' | ', $potensiBahayaArray),
+                        'upaya_pengendalian' => implode(' | ', $upayaPengendalianArray)
+                    ]);
 
                     // 3. Simpan Mahasiswa (pivot) - multiple mahasiswa
                     $mahasiswaIds = $request->input('mahasiswas', []);
@@ -560,6 +530,11 @@ public function detailView($id)
                 $upayaPengendalian = $request->input('upaya_pengendalian', []);
                 $urutanPekerjaan = $request->input('urutan_pekerjaan', []);
 
+                // Prepare data untuk update tabel JSA
+                $urutanKerjaArray = [];
+                $potensiBahayaArray = [];
+                $upayaPengendalianArray = [];
+
                 // Save work steps - more flexible approach
                 foreach ($urutanPekerjaan as $index => $urutan) {
                     if (!empty(trim($urutan))) {
@@ -573,8 +548,20 @@ public function detailView($id)
                             'potensi_bahaya' => $potensi ?: 'Belum diisi',
                             'upaya_pengendalian' => $upaya ?: 'Belum diisi'
                         ]);
+                        
+                        // Collect data untuk update tabel JSA
+                        $urutanKerjaArray[] = trim($urutan);
+                        $potensiBahayaArray[] = $potensi ?: 'Belum diisi';
+                        $upayaPengendalianArray[] = $upaya ?: 'Belum diisi';
                     }
                 }
+                
+                // Update tabel JSA dengan data work steps
+                $jsa->update([
+                    'urutan_kerja' => implode(' | ', $urutanKerjaArray),
+                    'potensi_bahaya' => implode(' | ', $potensiBahayaArray),
+                    'upaya_pengendalian' => implode(' | ', $upayaPengendalianArray)
+                ]);
 
                 // 4. Update Inspection Areas
                 Inspection::where('jsa_id', $id)->delete();

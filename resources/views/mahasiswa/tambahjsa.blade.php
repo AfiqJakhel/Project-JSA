@@ -2657,6 +2657,33 @@ refreshStats(); // Initial load
                             }
                         });
                         
+                        // Pastikan semua input work steps berada di dalam form
+                        const allWorkStepInputs = document.querySelectorAll('input[name="urutan_pekerjaan[]"], textarea[name="potensi_bahaya[]"], textarea[name="upaya_pengendalian[]"]');
+                        console.log('Found work step inputs:', allWorkStepInputs.length);
+                        
+                        allWorkStepInputs.forEach((input, index) => {
+                            if (!form.contains(input)) {
+                                console.log(`Moving work step input[${index}] to form:`, input.name, input.value);
+                                form.appendChild(input);
+                            }
+                        });
+                        
+                        // Debug work steps data
+                        const workStepItems = form.querySelectorAll('.work-step-item');
+                        console.log('=== WORK STEPS DEBUG ===');
+                        console.log('Work step items found:', workStepItems.length);
+                        
+                        workStepItems.forEach((item, index) => {
+                            const urutanInput = item.querySelector('input[name="urutan_pekerjaan[]"]');
+                            const potensiTextarea = item.querySelector('textarea[name="potensi_bahaya[]"]');
+                            const upayaTextarea = item.querySelector('textarea[name="upaya_pengendalian[]"]');
+                            
+                            console.log(`Work step ${index + 1}:`);
+                            console.log(`  urutan_pekerjaan:`, urutanInput ? urutanInput.value : 'NOT FOUND');
+                            console.log(`  potensi_bahaya:`, potensiTextarea ? potensiTextarea.value : 'NOT FOUND');
+                            console.log(`  upaya_pengendalian:`, upayaTextarea ? upayaTextarea.value : 'NOT FOUND');
+                        });
+                        
                         // Debug final state
                         const finalMahasiswaIds = form.querySelectorAll('input[name="mahasiswa_ids[]"]');
                         const finalApdCheckboxes = form.querySelectorAll('input[name^="apd_"]');

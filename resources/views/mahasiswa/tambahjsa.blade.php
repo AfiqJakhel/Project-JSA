@@ -2598,4 +2598,3 @@ refreshStats(); // Initial load
     </script>
 </body>
 </html>
-EOF

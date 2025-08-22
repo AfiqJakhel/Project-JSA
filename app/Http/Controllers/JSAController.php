@@ -171,8 +171,6 @@ class JSAController extends Controller
                         'lokasi_pekerjaan' => $request->lokasi_pekerjaan,
                         'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
                         'urutan_kerja' => '', // akan diisi dari work steps
-                        'potensi_bahaya' => '', // akan diisi dari work steps
-                        'upaya_pengendalian' => '', // akan diisi dari work steps
                         'status' => 'Menunggu'
                     ]);
 
@@ -210,8 +208,6 @@ class JSAController extends Controller
                     // Update tabel JSA dengan data work steps
                     $jsa->update([
                         'urutan_kerja' => implode(' | ', $urutanKerjaArray),
-                        'potensi_bahaya' => implode(' | ', $potensiBahayaArray),
-                        'upaya_pengendalian' => implode(' | ', $upayaPengendalianArray)
                     ]);
 
                     // 3. Simpan Mahasiswa (pivot) - multiple mahasiswa
@@ -380,7 +376,7 @@ public function getForMahasiswa(Request $request)
         $query->where('jsas.status', $status);
     }
 
-    $jsa = $query->with(['workSteps', 'inspections'])->orderBy('jsas.created_at', 'desc')->get();
+    $jsa = $query->with(['workSteps', 'inspections'])->orderBy('jsas.id', 'asc')->get();
 
     return response()->json($jsa);
 }
@@ -388,6 +384,7 @@ public function getForMahasiswa(Request $request)
 public function detailView($id)
 {
     $jsa = Jsa::with(['mahasiswas', 'dosens', 'apds', 'workSteps', 'inspections'])->findOrFail($id);
+    $jsa->setRelation('mahasiswas', $jsa->mahasiswas->unique('id'));
 
     // untuk dropdown pilihan (jika ingin edit/mengganti mahasiswa/dosen)
     $mahasiswas = Mahasiswa::select('id','nim','nama')->orderBy('nama')->get();
@@ -518,8 +515,6 @@ public function detailView($id)
                     'lokasi_pekerjaan' => $request->lokasi_pekerjaan,
                     'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
                     'urutan_kerja' => '', // akan diisi dari work steps
-                    'potensi_bahaya' => '', // akan diisi dari work steps
-                    'upaya_pengendalian' => '', // akan diisi dari work steps
                     'status' => 'Menunggu'
                 ]);
 
@@ -559,8 +554,6 @@ public function detailView($id)
                 // Update tabel JSA dengan data work steps
                 $jsa->update([
                     'urutan_kerja' => implode(' | ', $urutanKerjaArray),
-                    'potensi_bahaya' => implode(' | ', $potensiBahayaArray),
-                    'upaya_pengendalian' => implode(' | ', $upayaPengendalianArray)
                 ]);
 
                 // 4. Update Inspection Areas

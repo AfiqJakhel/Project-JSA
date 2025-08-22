@@ -12,13 +12,13 @@ class Inspection extends Model
     protected $fillable = [
         'jsa_id',
         'area_inspeksi',
+        'tanggal_selesai',
         'item_inspeksi',
         'standar_kebersihan',
         'hasil_pemeriksaan',
         'status',
         'ok_ng',
-        'tindakan_korektif',
-        'tanggal_selesai',
+        'tindakan_korektif'
     ];
 
     protected $casts = [

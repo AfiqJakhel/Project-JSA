@@ -1182,7 +1182,7 @@
             @endif
 
             <form id="jsaForm" method="POST" action="{{ route('mahasiswa.tambahjsa.store') }}">
-        @csrf
+                @csrf
 
                 <!-- Basic Information Section -->
                 <div class="form-section">
@@ -1191,32 +1191,34 @@
                         <div class="form-group">
                             <label class="form-label" for="semester">Semester</label>
                             <input type="text" id="semester" name="semester" class="form-input" placeholder="Masukkan semester" value="{{ old('semester') }}" required>
-        </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label" for="matakuliah">Mata Kuliah</label>
                             <input type="text" id="matakuliah" name="matakuliah" class="form-input" placeholder="Masukkan mata kuliah" value="{{ old('matakuliah') }}" required>
-        </div>
-        </div>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="kelas">Kelas</label>
                             <input type="text" id="kelas" name="kelas" class="form-input" placeholder="Masukkan kelas" value="{{ old('kelas') }}" required>
-        </div>
+                        </div>
                         <div class="form-group">
                             <label class="form-label" for="nama_pekerjaan">Nama Pekerjaan</label>
                             <input type="text" id="nama_pekerjaan" name="nama_pekerjaan" class="form-input" placeholder="Masukkan nama pekerjaan" value="{{ old('nama_pekerjaan') }}" required>
-        </div>
-        </div>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="lokasi_pekerjaan">Lokasi</label>
                             <input type="text" id="lokasi_pekerjaan" name="lokasi_pekerjaan" class="form-input" placeholder="Masukkan lokasi pekerjaan" value="{{ old('lokasi_pekerjaan') }}" required>
-        </div>
+                        </div>
                         <div class="form-group">
                             <label class="form-label" for="tanggal_pelaksanaan">Tanggal Pekerjaan</label>
                             <input type="date" id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" class="form-input" value="{{ old('tanggal_pelaksanaan') }}" required>
-        </div>
-        </div>
+                        </div>
+                    </div>
                         <div class="form-group">
                             <label class="form-label" for="jsaNumberPreview">Nomor JSA (Preview)</label>
                             <div class="jsa-preview-container">
@@ -1224,9 +1226,8 @@
                                 <small class="form-text" style="color: rgba(255, 255, 255, 0.7);">
                                     <i class="fas fa-info-circle"></i> Nomor JSA akan dibuat otomatis setelah semua data terisi
                                 </small>
+                            </div>
                         </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Dosen Pembimbing Selection Section -->
@@ -1266,8 +1267,8 @@
                             </div>
                         </div>
                         
-                            </div>
-                            </div>
+                    </div>
+                </div>
 
                 <!-- Mahasiswa Selection Section -->
                 <div class="form-section">
@@ -1282,12 +1283,12 @@
                                 </button>
                             </div>
                             <div id="searchResults" class="search-results"></div>
-                            </div>
+                        </div>
                         <div class="selected-mahasiswa-container">
                             <h4 class="selected-title">Mahasiswa yang Dipilih:</h4>
                             <div id="selectedMahasiswaList" class="selected-mahasiswa-list">
                                 <!-- Selected mahasiswa will be displayed here -->
-                        </div>
+                            </div>
                             <div class="info-text">
                                 <small style="color: rgba(255, 255, 255, 0.7);">
                                     <i class="fas fa-info-circle"></i> 
@@ -1542,7 +1543,7 @@ refreshStats(); // Initial load
             </div>
             <div class="inspection-area-details">
                 <div class="form-group">
-                    <label class="form-label" for="tanggal_selesai_">Tanggal Selesai</label>
+                    <label class="form-label">Tanggal Selesai</label>
                     <input type="date" name="tanggal_selesai[]" id="tanggal_selesai_" class="form-input">
                 </div>
                 

@@ -231,19 +231,137 @@
             padding: 12px 16px;
             border: none;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-size: 14px;
             outline: none;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
+        .form-select:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-select:focus {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Override browser default styling untuk options */
         .form-select option {
-            background: rgba(30, 30, 47, 0.95);
+            background-color: #667eea !important;
+            color: white !important;
+            padding: 12px 16px !important;
+            border: none !important;
+            font-size: 14px !important;
+            border-radius: 8px !important;
+            margin: 2px 0 !important;
+        }
+
+        .form-select option:hover {
+            background-color: #764ba2 !important;
+            color: white !important;
+        }
+
+        .form-select option:checked {
+            background-color: #667eea !important;
+            color: white !important;
+            font-weight: bold !important;
+        }
+
+        .form-select option:selected {
+            background-color: #667eea !important;
+            color: white !important;
+            font-weight: bold !important;
+        }
+
+        /* Styling untuk dropdown container */
+        .form-select:focus {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Firefox specific styling */
+        .form-select:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 white;
+        }
+
+        .form-select:-moz-focusring option {
+            background-color: #667eea !important;
+            color: white !important;
+        }
+
+        /* Webkit specific styling */
+        .form-select::-webkit-select-placeholder {
             color: white;
-            padding: 10px;
+        }
+
+        /* IE/Edge specific styling */
+        .form-select::-ms-expand {
+            display: none;
+        }
+
+        .form-select::-ms-value {
+            background-color: #667eea !important;
+            color: white !important;
+        }
+
+        /* Additional styling untuk memastikan options tidak putih */
+        .form-select option[value] {
+            background-color: #667eea !important;
+            color: white !important;
+        }
+
+        .form-select option[value]:hover {
+            background-color: #764ba2 !important;
+            color: white !important;
+        }
+
+        .form-select option[value]:checked {
+            background-color: #667eea !important;
+            color: white !important;
+            font-weight: bold !important;
+        }
+
+        /* Custom dropdown arrow for Firefox */
+        .form-select::-ms-expand {
+            display: none;
+        }
+
+        /* Custom scrollbar untuk dropdown */
+        .form-select::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .form-select::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .form-select::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        .form-select::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
         }
 
         /* Mahasiswa & Dosen Search Section */
@@ -1010,18 +1128,58 @@
                     <h2 class="section-title">Informasi Dasar</h2>
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Semester</label>
-                            <input type="text" name="semester" class="form-input" placeholder="Masukkan semester" value="{{ old('semester', $jsa->prodi) }}" required>
+                            <label class="form-label" for="semester">Semester</label>
+                            <select id="semester" name="semester" class="form-select" required>
+                                <option value="">Pilih Semester</option>
+                                <option value="1" {{ old('semester', $jsa->prodi) == '1' ? 'selected' : '' }}>Semester Ganjil (1)</option>
+                                <option value="2" {{ old('semester', $jsa->prodi) == '2' ? 'selected' : '' }}>Semester Genap (2)</option>
+                                <option value="3" {{ old('semester', $jsa->prodi) == '3' ? 'selected' : '' }}>Semester Ganjil (3)</option>
+                                <option value="4" {{ old('semester', $jsa->prodi) == '4' ? 'selected' : '' }}>Semester Genap (4)</option>
+                                <option value="6" {{ old('semester', $jsa->prodi) == '6' ? 'selected' : '' }}>Semester Genap (6)</option>
+                            </select>
                         </div>
+
                         <div class="form-group">
-                            <label class="form-label">Mata Kuliah</label>
-                            <input type="text" name="matakuliah" class="form-input" placeholder="Masukkan mata kuliah" value="{{ old('matakuliah', $jsa->matakuliah) }}" required>
+                            <label class="form-label" for="kelas">Kelas</label>
+                            <select id="kelas" name="kelas" class="form-select" required>
+                                <option value="">Pilih Kelas</option>
+                                @php
+                                    $currentSemester = old('semester', $jsa->prodi);
+                                    $currentKelas = old('kelas', $jsa->kelas);
+                                    
+                                    // Debug: tampilkan nilai untuk debugging
+                                    // echo "<!-- Debug: Semester=$currentSemester, Kelas=$currentKelas -->";
+                                    
+                                    // Tampilkan kelas berdasarkan semester yang dipilih
+                                    if ($currentSemester == '1' || $currentSemester == '2') {
+                                        echo '<option value="1"' . ($currentKelas == '1' ? ' selected' : '') . '>Kelas 1</option>';
+                                    } elseif ($currentSemester == '3' || $currentSemester == '4') {
+                                        echo '<option value="2"' . ($currentKelas == '2' ? ' selected' : '') . '>Kelas 2</option>';
+                                    } elseif ($currentSemester == '6') {
+                                        echo '<option value="3"' . ($currentKelas == '3' ? ' selected' : '') . '>Kelas 3</option>';
+                                    } else {
+                                        // Jika semester belum dipilih, tampilkan semua kelas dengan selected yang sesuai
+                                        echo '<option value="1"' . ($currentKelas == '1' ? ' selected' : '') . '>Kelas 1</option>';
+                                        echo '<option value="2"' . ($currentKelas == '2' ? ' selected' : '') . '>Kelas 2</option>';
+                                        echo '<option value="3"' . ($currentKelas == '3' ? ' selected' : '') . '>Kelas 3</option>';
+                                    }
+                                @endphp
+                            </select>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Kelas</label>
-                            <input type="text" name="kelas" class="form-input" placeholder="Masukkan kelas" value="{{ old('kelas', $jsa->kelas) }}" required>
+                            <label class="form-label" for="matakuliah">Mata Kuliah</label>
+                            <select id="matakuliah" name="matakuliah" class="form-select" required>
+                                <option value="">Pilih Mata Kuliah</option>
+                                @php
+                                    $currentMatakuliah = old('matakuliah', $jsa->matakuliah);
+                                    if ($currentMatakuliah) {
+                                        echo '<option value="' . htmlspecialchars($currentMatakuliah) . '" selected>' . htmlspecialchars($currentMatakuliah) . '</option>';
+                                    }
+                                @endphp
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Nama Pekerjaan</label>
@@ -1652,6 +1810,11 @@
             const dosenSearchResults = document.getElementById('dosenSearchResults');
             const selectedDosens = document.getElementById('selectedDosens');
 
+            // Mata kuliah dropdown elements
+            const semesterSelect = document.getElementById('semester');
+            const kelasSelect = document.getElementById('kelas');
+            const matakuliahSelect = document.getElementById('matakuliah');
+
             // Initialize selected mahasiswa from existing data
             document.querySelectorAll('.ppe-section').forEach(ppeSection => {
                 const mahasiswaId = ppeSection.getAttribute('data-mahasiswa-id');
@@ -1679,6 +1842,169 @@
                     label: '{{ $dosen->nip }} - {{ $dosen->nama }}'
                 });
             @endforeach
+
+            // Initialize mata kuliah dropdown functionality
+            function initializeMataKuliahDropdown() {
+                if (!semesterSelect || !kelasSelect || !matakuliahSelect) return;
+
+                // Remove existing event listeners to prevent duplicates
+                semesterSelect.removeEventListener('change', updateKelasOptions);
+                kelasSelect.removeEventListener('change', updateMataKuliahOptions);
+
+                // Event listeners for semester and kelas changes
+                semesterSelect.addEventListener('change', updateKelasOptions);
+                kelasSelect.addEventListener('change', updateMataKuliahOptions);
+
+                // Load initial data from database
+                loadInitialData();
+            }
+
+            // Function to load initial data from database
+            function loadInitialData() {
+                const currentSemester = semesterSelect.value;
+                const currentKelas = kelasSelect.value;
+                const currentMatakuliah = '{{ old("matakuliah", $jsa->matakuliah) }}';
+
+                // If we have semester and kelas data, load mata kuliah
+                if (currentSemester && currentKelas) {
+                    // Load mata kuliah from API without updating kelas options
+                    // (kelas options are already set by PHP in the template)
+                    loadMataKuliahFromAPI(currentSemester, currentKelas, currentMatakuliah);
+                }
+            }
+
+            // Function to load mata kuliah from API
+            function loadMataKuliahFromAPI(semester, kelas, selectedMatakuliah) {
+                // Show loading
+                matakuliahSelect.innerHTML = '<option value="">Memuat mata kuliah...</option>';
+
+                // Fetch mata kuliah from API
+                fetch(`/api/mata-kuliah/${semester}/${kelas}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Update mata kuliah options
+                        matakuliahSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+                        
+                        if (data.length === 0) {
+                            matakuliahSelect.innerHTML = '<option value="">Tidak ada mata kuliah tersedia</option>';
+                            return;
+                        }
+
+                        data.forEach(mataKuliah => {
+                            const option = document.createElement('option');
+                            option.value = mataKuliah.nama_matakuliah;
+                            option.textContent = mataKuliah.nama_matakuliah;
+                            
+                            // Set selected if it matches the current mata kuliah
+                            if (mataKuliah.nama_matakuliah === selectedMatakuliah) {
+                                option.selected = true;
+                            }
+                            
+                            matakuliahSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching mata kuliah:', error);
+                        matakuliahSelect.innerHTML = '<option value="">Error: Gagal memuat mata kuliah</option>';
+                    });
+            }
+
+            // Update kelas options based on selected semester
+            function updateKelasOptions() {
+                const semester = semesterSelect.value;
+
+                // Reset kelas dropdown to empty when semester changes
+                kelasSelect.innerHTML = '<option value="">Pilih Kelas</option>';
+
+                // Reset mata kuliah dropdown immediately when semester changes
+                matakuliahSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+                
+                if (!semester) {
+                    return;
+                }
+
+                // Define kelas options based on semester
+                let kelasOptions = [];
+                
+                if (semester === '1' || semester === '2') {
+                    // Semester 1 dan 2 hanya untuk Kelas 1
+                    kelasOptions = [
+                        { value: '1', text: 'Kelas 1' }
+                    ];
+                } else if (semester === '3' || semester === '4') {
+                    // Semester 3 dan 4 hanya untuk Kelas 2
+                    kelasOptions = [
+                        { value: '2', text: 'Kelas 2' }
+                    ];
+                } else if (semester === '6') {
+                    // Semester 6 hanya untuk Kelas 3
+                    kelasOptions = [
+                        { value: '3', text: 'Kelas 3' }
+                    ];
+                }
+
+                // Add kelas options to dropdown (always reset, no validation)
+                kelasOptions.forEach(kelas => {
+                    const option = document.createElement('option');
+                    option.value = kelas.value;
+                    option.textContent = kelas.text;
+                    kelasSelect.appendChild(option);
+                });
+            }
+
+            // Update mata kuliah options based on selected semester and kelas
+            function updateMataKuliahOptions() {
+                const semester = semesterSelect.value;
+                const kelas = kelasSelect.value;
+
+                // Reset mata kuliah dropdown
+                matakuliahSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+
+                // Jika semester atau kelas belum dipilih, biarkan mata kuliah kosong
+                if (!semester || !kelas) {
+                    return;
+                }
+
+                // Show loading
+                matakuliahSelect.innerHTML = '<option value="">Memuat mata kuliah...</option>';
+
+                // Fetch mata kuliah from API
+                fetch(`/api/mata-kuliah/${semester}/${kelas}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Update mata kuliah options
+                        matakuliahSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+                        
+                        if (data.length === 0) {
+                            matakuliahSelect.innerHTML = '<option value="">Tidak ada mata kuliah tersedia</option>';
+                            return;
+                        }
+
+                        data.forEach(mataKuliah => {
+                            const option = document.createElement('option');
+                            option.value = mataKuliah.nama_matakuliah;
+                            option.textContent = mataKuliah.nama_matakuliah;
+                            matakuliahSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching mata kuliah:', error);
+                        matakuliahSelect.innerHTML = '<option value="">Error: Gagal memuat mata kuliah</option>';
+                    });
+            }
+
+            // Initialize mata kuliah dropdown
+            initializeMataKuliahDropdown();
 
             // Add form validation before submission
             const jsaForm = document.getElementById('jsaForm');

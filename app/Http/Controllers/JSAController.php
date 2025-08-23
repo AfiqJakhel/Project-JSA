@@ -10,6 +10,7 @@ use App\Models\JsatoDsn;
 use App\Models\Apd;
 use App\Models\WorkStep;
 use App\Models\Inspection;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +33,15 @@ class JSAController extends Controller
             ->paginate(10);
 
         return response()->json($jsa);
+    }
+
+    /**
+     * API untuk mengambil mata kuliah berdasarkan semester dan kelas
+     */
+    public function getMataKuliah($semester, $kelas)
+    {
+        $mataKuliah = MataKuliah::bySemesterAndKelas($semester, $kelas)->get();
+        return response()->json($mataKuliah);
     }
 
     /**

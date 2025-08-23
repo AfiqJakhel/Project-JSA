@@ -28,6 +28,9 @@ Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(functi
 // Endpoint data untuk dashboard (AJAX)
 Route::get('/mahasiswa/jsa-data', [JSAController::class, 'getForMahasiswa'])->middleware('auth:mahasiswa');
 
+// API untuk mata kuliah berdasarkan semester dan kelas
+Route::get('/api/mata-kuliah/{semester}/{kelas}', [JSAController::class, 'getMataKuliah'])->name('api.mata-kuliah');
+
 Route::middleware('auth:mahasiswa')->group(function () {
     // Tampilkan form tambah JSA (mengirim data mahasiswa & dosen ke view)
     Route::get('/mahasiswa/tambahjsa', [JSAController::class, 'create'])->name('mahasiswa.tambahjsa');

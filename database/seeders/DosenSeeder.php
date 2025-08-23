@@ -14,53 +14,45 @@ class DosenSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if all dosen already exists
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // matikan cek FK
+        DB::table('dosens')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // aktifkan lagi cek FK
+        // Ambil semua NIP yang sudah ada
         $existingDosen = DB::table('dosens')->pluck('nip')->toArray();
-        
+
+        // Data dosen baru
         $dosenData = [
-            [
-                'nip' => '123456789',
-                'nama' => 'Dr. Dosen Satu',
-                'password' => Hash::make('123456789'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nip' => '987654321',
-                'nama' => 'Dr. Dosen Dua',
-                'password' => Hash::make('987654321'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nip' => '111222333',
-                'nama' => 'Prof. Dosen Tiga',
-                'password' => Hash::make('111222333'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nip' => '444555666',
-                'nama' => 'Dr. Dosen Empat',
-                'password' => Hash::make('444555666'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nip' => '777888999',
-                'nama' => 'Prof. Dosen Lima',
-                'password' => Hash::make('777888999'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            ['nip' => '19790124 200501 1 009', 'nama' => 'Andriyanto, ST.,MT'],
+            ['nip' => '19960930 202103 2 000', 'nama' => 'Atikah Ardi, S.Si.,M.Si.'],
+            ['nip' => '19850311 200812 1 005', 'nama' => 'Dian Wahyu, ST.,MT'],
+            ['nip' => '19710902 199802 1 001', 'nama' => 'Hanif, ST.,MT'],
+            ['nip' => '19811213 200501 1 001', 'nama' => 'Dr. Khairul Amri, S.Si.,M.Si'],
+            ['nip' => '19861107 201903 1 006', 'nama' => 'Nofriyandi R, S.Pd.,M.T.'],
+            ['nip' => '19621210 000000 1 001', 'nama' => 'Ir. Refnal Marzuki'],
+            ['nip' => '19770117 200501 1 002', 'nama' => 'Rino Sukma, ST.,MT'],
+            ['nip' => '19581227 198603 1 003', 'nama' => 'Dr. Ir. Drs. Rusmardi, MBA.,M.Pd'],
+            ['nip' => '19650816 000000 1 001', 'nama' => 'Ir. Guswandri'],
+            ['nip' => '19790117 000000 1 001', 'nama' => 'Rudy Chandra, ST., MT'],
+            ['nip' => '19660801 201903 1 000', 'nama' => 'Hendra, A.Md.T'],
         ];
 
         $addedCount = 0;
+
         foreach ($dosenData as $dosen) {
-            if (!in_array($dosen['nip'], $existingDosen)) {
-                DB::table('dosens')->insert($dosen);
+            // Trim NIP dan nama untuk menghindari spasi tersembunyi
+            $nip = trim($dosen['nip']);
+            $nama = trim($dosen['nama']);
+
+            if (!in_array($nip, $existingDosen)) {
+                DB::table('dosens')->insert([
+                    'nip' => $nip,
+                    'nama' => $nama,
+                    'password' => Hash::make($nip), // password sama dengan NIP
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
                 $addedCount++;
-                $this->command->info("Added dosen: {$dosen['nama']} ({$dosen['nip']})");
+                $this->command->info("Added dosen: {$nama} ({$nip})");
             }
         }
 

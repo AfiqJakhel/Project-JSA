@@ -423,6 +423,63 @@
             font-size: 0.85rem;
         }
 
+        /* Dosen selection styles */
+        .selected-dosen-container {
+            margin-top: 20px;
+        }
+
+        .selected-dosen-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .selected-dosen-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .selected-dosen-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .selected-dosen-info {
+            flex: 1;
+        }
+
+        .selected-dosen-nip {
+            font-weight: 600;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .selected-dosen-nama {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+        }
+
+        .remove-dosen-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-dosen-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
         .no-results {
             padding: 20px;
             text-align: center;
@@ -981,35 +1038,40 @@
                             <input type="date" name="tanggal_pelaksanaan" class="form-input" value="{{ old('tanggal_pelaksanaan', optional($jsa->tanggal_pelaksanaan)->format('Y-m-d')) }}" required>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">No JSA</label>
+                    <div class="form-group">
+                        <div class="form-group jsa-preview-container">
+                            <label class="form-label">Nomor JSA (Preview)</label>
                             <input type="text" class="form-input" value="{{ $jsa->no_jsa }}" readonly style="background-color: #f8f9fa; color: #6c757d;">
                             <small class="form-text" style="color: rgba(255, 255, 255, 0.7);">
-                                <i class="fas fa-info-circle"></i> Nomor JSA dibuat otomatis dan tidak dapat diubah
+                                <i class="fas fa-info-circle"></i> Nomor JSA akan dibuat otomatis setelah semua data terisi
                             </small>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Dosen Pembimbing</label>
-                            <div class="dosen-selection-container">
-                                <!-- Search input untuk dosen -->
-                                <div class="search-container">
-                                    <input type="text" id="dosenSearch" class="form-input" placeholder="Cari dosen (NIP atau nama)...">
-                                    <div id="dosenSearchResults" class="search-results" style="display: none;"></div>
-                                </div>
-                                
-                                <!-- Daftar dosen yang dipilih -->
-                                <div id="selectedDosens" class="selected-items">
+                    </div>
+                </div>
+
+                <!-- Supervisor Selection Section -->
+                <div class="form-section">
+                    <h2 class="section-title">Pemilihan Dosen Pembimbing</h2>
+                    <div class="form-group">
+                        <label class="form-label">Cari dan Pilih Dosen Pembimbing</label>
+                        <div class="dosen-selection-container">
+                            <div class="search-input-group">
+                                <input type="text" id="dosenSearch" class="form-input" placeholder="Cari dosen (NIP atau nama)...">
+                                <button type="button" id="searchDosen" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div id="dosenSearchResults" class="search-results"></div>
+                            
+                            <div class="selected-dosen-container">
+                                <h4 class="selected-title">Dosen Pembimbing yang Dipilih:</h4>
+                                <div id="selectedDosens" class="selected-dosen-list">
                                     <!-- Dosen yang dipilih akan muncul di sini -->
                                 </div>
-                                
-                                <!-- Hidden inputs untuk form submission -->
-                                <div id="dosenInputs"></div>
-                                
-                                <small class="form-text" style="color: rgba(255, 255, 255, 0.7);">
-                                    <i class="fas fa-info-circle"></i> Minimal harus ada 1 dosen pembimbing
-                                </small>
                             </div>
+                            
+                            <!-- Hidden inputs untuk form submission -->
+                            <div id="dosenInputs"></div>
                         </div>
                     </div>
                 </div>
@@ -1584,6 +1646,12 @@
             const currentMahasiswaNim = document.getElementById('currentMahasiswaNim').value;
             const currentMahasiswaNama = document.getElementById('currentMahasiswaNama').value;
 
+            // Dosen search functionality
+            const dosenSearch = document.getElementById('dosenSearch');
+            const searchDosenBtn = document.getElementById('searchDosen');
+            const dosenSearchResults = document.getElementById('dosenSearchResults');
+            const selectedDosens = document.getElementById('selectedDosens');
+
             // Initialize selected mahasiswa from existing data
             document.querySelectorAll('.ppe-section').forEach(ppeSection => {
                 const mahasiswaId = ppeSection.getAttribute('data-mahasiswa-id');
@@ -1664,10 +1732,11 @@
                 searchMahasiswaBtn.addEventListener('click', searchMahasiswa);
             }
             
-            // Dosen search functionality
-            const dosenSearch = document.getElementById('dosenSearch');
-            const dosenSearchResults = document.getElementById('dosenSearchResults');
-            const selectedDosens = document.getElementById('selectedDosens');
+
+
+            if (searchDosenBtn) {
+                searchDosenBtn.addEventListener('click', searchDosen);
+            }
 
             if (dosenSearch) {
                 dosenSearch.addEventListener('keypress', function(e) {
@@ -1969,6 +2038,13 @@
                 updateSelectedDosenList();
                 updateDosenSearchResults();
             }
+
+            // Global function for removing dosen (for onclick)
+            window.removeDosen = function(dosenId) {
+                selectedDosen.delete(dosenId);
+                updateSelectedDosenList();
+                updateDosenSearchResults();
+            };
 
             // Function to update selected dosen list
             function updateSelectedDosenList() {

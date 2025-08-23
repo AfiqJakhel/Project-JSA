@@ -1219,15 +1219,6 @@
                             <input type="date" id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" class="form-input" value="{{ old('tanggal_pelaksanaan') }}" required>
                         </div>
                     </div>
-                        <div class="form-group">
-                            <label class="form-label" for="jsaNumberPreview">Nomor JSA (Preview)</label>
-                            <div class="jsa-preview-container">
-                                <input type="text" id="jsaNumberPreview" class="form-input" readonly style="background-color: #f8f9fa; color: #6c757d;">
-                                <small class="form-text" style="color: rgba(255, 255, 255, 0.7);">
-                                    <i class="fas fa-info-circle"></i> Nomor JSA akan dibuat otomatis setelah semua data terisi
-                                </small>
-                            </div>
-                        </div>
                 </div>
 
                 <!-- Dosen Pembimbing Selection Section -->
@@ -1428,6 +1419,11 @@
             </div>
 
 <script>
+console.log('=== JSA Form Script Loading ===');
+console.log('Current timestamp:', new Date().toISOString());
+console.log('Document ready state:', document.readyState);
+console.log('Window location:', window.location.href);
+
 function refreshStats() {
     fetch('{{ route('api.race.condition.stats') }}')
         .then(response => response.json())
@@ -1675,7 +1671,6 @@ refreshStats(); // Initial load
                     updateSelectedMahasiswaList();
                     updateSearchResults();
                     updateMahasiswaHiddenInputs();
-                    updateJsaNumberPreview();
                     
                     // Show success message
                     showSuccessMessage(`${mahasiswaNama} berhasil ditambahkan`);
@@ -1740,7 +1735,6 @@ refreshStats(); // Initial load
                     updateSelectedMahasiswaList();
                     updateSearchResults();
                     updateMahasiswaHiddenInputs();
-                    updateJsaNumberPreview();
                     
                     showSuccessMessage(`${mahasiswaNama} berhasil dihapus`);
                 }
@@ -1954,7 +1948,6 @@ refreshStats(); // Initial load
                     updateSelectedDosenList();
                     updateDosenSearchResults();
                     updateDosenHiddenInputs();
-                    updateJsaNumberPreview();
                     
                     // Success message
                     const successMessage = document.createElement('div');
@@ -2022,7 +2015,6 @@ refreshStats(); // Initial load
                     updateSelectedDosenList();
                     updateDosenSearchResults();
                     updateDosenHiddenInputs();
-                    updateJsaNumberPreview();
                     
                     showSuccessMessage(`${dosenNama} berhasil dihapus`);
                 }
@@ -2161,26 +2153,53 @@ refreshStats(); // Initial load
                     }, 2000);
                 }
 
-                // Generate and update Nomor JSA preview when required fields are ready
+                // Generate and update Nomor JSA preview based on database count
                 function updateJsaNumberPreview() {
+                    console.log('=== updateJsaNumberPreview function called ===');
                     const previewInput = document.getElementById('jsaNumberPreview');
-                    if (!previewInput) return;
-
-                    const semester = document.getElementById('semester')?.value?.trim();
-                    const matakuliah = document.getElementById('matakuliah')?.value?.trim();
-                    const kelas = document.getElementById('kelas')?.value?.trim();
-                    const tanggal = document.getElementById('tanggal_pelaksanaan')?.value?.trim();
-                    const hasDosen = selectedDosen.size > 0;
-
-                    if (semester && matakuliah && kelas && tanggal && hasDosen) {
-                        const datePart = tanggal.replaceAll('-', '');
-                        const mkPart = (matakuliah || '').toUpperCase().replace(/\s+/g, '').slice(0, 6);
-                        const kelasPart = (kelas || '').toUpperCase().replace(/\s+/g, '');
-                        const seq = Math.floor(Math.random() * 9000 + 1000);
-                        previewInput.value = `JSA-${semester}-${kelasPart}-${datePart}-${mkPart}-${seq}`;
-                    } else {
-                        previewInput.value = '';
+                    console.log('previewInput element:', previewInput);
+                    
+                    if (!previewInput) {
+                        console.error('previewInput element not found');
+                        return;
                     }
+
+                    console.log('Fetching JSA count from API...');
+                    console.log('API URL:', '{{ route('api.get.jsa.count') }}');
+                    
+                    // Fetch JSA count from API to generate sequential number
+                    fetch('/api/get-jsa-count', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'same-origin'
+                    })
+                        .then(response => {
+                            console.log('API response status:', response.status);
+                            console.log('API response headers:', response.headers);
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('API response data:', data);
+                            const nextNumber = (data.count || 0) + 1;
+                            const formattedNumber = nextNumber.toString().padStart(4, '0');
+                            const jsaNumber = `JSA-${formattedNumber}`;
+                            console.log('Generated JSA number:', jsaNumber);
+                            previewInput.value = jsaNumber;
+                            console.log('JSA number set to input field');
+                        })
+                        .catch(error => {
+                            console.error('Error fetching JSA count:', error);
+                            console.error('Error details:', error.message);
+                            // Fallback to default if API fails
+                            previewInput.value = 'JSA-0001';
+                            console.log('Set fallback JSA number: JSA-0001');
+                        })
+                        .finally(() => {
+                            console.log('API call completed (success or error)');
+                        });
                 }
 
                 // Add Work Step functionality
@@ -2425,13 +2444,8 @@ refreshStats(); // Initial load
                     });
                 }
 
-                // Update JSA number preview when required fields change
-                ;['semester','matakuliah','kelas','tanggal_pelaksanaan'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.addEventListener('input', updateJsaNumberPreview);
-                });
-                // initial preview computation
-                updateJsaNumberPreview();
+                // JSA number preview is now auto-generated on page load
+                // No need for field change listeners anymore
 
                 // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {

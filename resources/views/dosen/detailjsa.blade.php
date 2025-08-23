@@ -981,7 +981,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Lokasi</label>
-                            <input type="text" name="lokasi_pekerjaan" class="form-input" placeholder="Masukkan lokasi pekerjaan" value="{{ old('lokasi_pekerjaan', $jsa->lokasi_pekerjaan) }}" required>
+                            <select name="lokasi_pekerjaan" class="form-select" required>
+                                <option value="">Pilih Lokasi</option>
+                                <option value="Hangar" {{ old('lokasi_pekerjaan', $jsa->lokasi_pekerjaan) == 'Hangar' ? 'selected' : '' }}>Hangar</option>
+                                <option value="Workshop" {{ old('lokasi_pekerjaan', $jsa->lokasi_pekerjaan) == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Tanggal Pekerjaan</label>

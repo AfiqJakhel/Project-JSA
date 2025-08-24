@@ -9,11 +9,11 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             overflow-x: hidden;
             position: relative;
         }
@@ -168,16 +168,17 @@
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(30px);
             border-radius: 20px;
-            padding: 40px;
+            padding: 40px 35px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             box-shadow: 
-                0 25px 45px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -208,31 +209,47 @@
             text-align: center;
             color: white;
             font-size: 2rem;
-            margin-bottom: 30px;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            margin-top: 2px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            color: white;
-            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
             margin-bottom: 8px;
             font-size: 0.9rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         .input-container {
             position: relative;
             overflow: hidden;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container:focus-within {
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .input-container::before {
@@ -253,35 +270,50 @@
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 15px 20px;
+            padding: 16px 20px;
             background: transparent;
             border: none;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             position: relative;
             z-index: 1;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            color: #fff;
         }
 
         input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        input:focus::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
         }
 
         .btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
         .btn::before {
@@ -300,12 +332,37 @@
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #5a6fd8, #6a4190, #e085e8);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .btn:active {
             transform: translateY(0);
+        }
+
+        .loading {
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .alert {
@@ -327,13 +384,98 @@
         .info-text {
             text-align: center;
             margin-top: 25px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
             line-height: 1.6;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 18px;
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .info-text p {
-            margin: 5px 0;
+            margin: 8px 0;
+        }
+
+        .info-text strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .register-links {
+            text-align: center;
+            margin-top: 20px;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            backdrop-filter: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        .register-text {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #28a745, #20c997, #17a2b8) !important;
+            margin-bottom: -10px;
+            margin-top: -10px;
+            display: inline-block;
+            text-decoration: none;
+            width: 100%;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 15px;
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(135deg, #218838, #1ea085, #138496) !important;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
+        }
+
+        .register-note {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        /* Modern floating animation for shapes */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced loading animation */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         footer {
@@ -425,7 +567,7 @@
 
             <div class="login-container">
                 <div class="login-card">
-                    <h2>Login</h2>
+                    <h2>LOGIN</h2>
                     
                     @if(session('error'))
                         <div class="alert">
@@ -447,9 +589,9 @@
                         @csrf
                         
                         <div class="form-group">
-                            <label for="identifier">NIP / NIM</label>
+                            <label for="identifier">Email / NIM</label>
                             <div class="input-container">
-                                <input type="text" name="identifier" id="identifier" value="{{ old('identifier') }}" required placeholder="Masukkan NIP atau NIM">
+                                <input type="text" name="identifier" id="identifier" value="{{ old('identifier') }}" required placeholder="Masukkan email atau NIM ">
                             </div>
                         </div>
 
@@ -468,15 +610,13 @@
                         </button>
                     </form>
                     
-                    <div class="info-text">
-                        <p><strong>Untuk Mahasiswa:</strong> Login menggunakan NIM dan password (sama dengan NIM)</p>
-                        <p><strong>Untuk Dosen:</strong> Login menggunakan email dan password yang telah diberikan</p>
+                    <div class="register-links">
+                        <a href="{{ route('register.dosen') }}" class="btn register-btn">Register Dosen</a>
                     </div>
                     
-                    <div class="register-links" style="text-align: center; margin-top: 20px;">
-                        <p style="margin-bottom: 10px; color: #666;">Belum punya akun?</p>
-                        <a href="{{ route('register.dosen') }}" class="btn" style="background: #28a745; margin-right: 10px;">Register Dosen</a>
-                        <small style="color: #666;">Mahasiswa tidak perlu register, gunakan NIM sebagai password</small>
+                    <div class="info-text">
+                        <p><strong>Untuk Mahasiswa:</strong> Login menggunakan NIM</p>
+                        <p><strong>Untuk Dosen:</strong> Login menggunakan email</p>
                     </div>
                 </div>
             </div>
@@ -490,12 +630,22 @@
     <script>
         // Form submission with loading animation
         document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const identifier = document.getElementById('identifier').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Basic validation
+            if (!identifier || !password) {
+                e.preventDefault();
+                alert('Mohon isi email/NIM dan password');
+                return;
+            }
+            
             const btn = document.getElementById('loginBtn');
             const btnText = btn.querySelector('.btn-text');
             const loading = btn.querySelector('.loading');
             
             btnText.style.display = 'none';
-            loading.style.display = 'block';
+            loading.style.display = 'flex';
             btn.disabled = true;
         });
 
@@ -514,6 +664,19 @@
                 const speed = 0.5 + (index * 0.1);
                 shape.style.transform = `translateY(${scrolled * speed}px)`;
             });
+        });
+
+        // Auto-focus on identifier field
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('identifier').focus();
+        });
+
+        // Show/hide password toggle (optional enhancement)
+        const passwordField = document.getElementById('password');
+        passwordField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').submit();
+            }
         });
     </script>
 </body>

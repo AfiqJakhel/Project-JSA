@@ -23,7 +23,7 @@ class CheckRole
 
         // Cek role yang diizinkan
         if ($role === 'dosen') {
-            if (!Auth::guard('dosen')->check()) {
+            if (!Auth::check() || Auth::user()->role !== 'dosen') {
                 return redirect('/mahasiswa/dashboard')->with('error', 'Akses ditolak. Anda bukan dosen.');
             }
         } elseif ($role === 'mahasiswa') {

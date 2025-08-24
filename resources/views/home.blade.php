@@ -470,7 +470,13 @@
                     
                     <div class="info-text">
                         <p><strong>Untuk Mahasiswa:</strong> Login menggunakan NIM dan password (sama dengan NIM)</p>
-                        <p><strong>Untuk Dosen:</strong> Login menggunakan NIP dan password yang telah diberikan</p>
+                        <p><strong>Untuk Dosen:</strong> Login menggunakan email dan password yang telah diberikan</p>
+                    </div>
+                    
+                    <div class="register-links" style="text-align: center; margin-top: 20px;">
+                        <p style="margin-bottom: 10px; color: #666;">Belum punya akun?</p>
+                        <a href="{{ route('register.dosen') }}" class="btn" style="background: #28a745; margin-right: 10px;">Register Dosen</a>
+                        <small style="color: #666;">Mahasiswa tidak perlu register, gunakan NIM sebagai password</small>
                     </div>
                 </div>
             </div>

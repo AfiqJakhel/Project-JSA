@@ -14,8 +14,17 @@ Route::get('/', function () {
     return view('home');
 })->middleware('prevent.back');
 
+// Login routes
+Route::get('/login', function () {
+    return view('home');
+})->name('login');
+
 // Unified login route
 Route::post('/login', [Controller::class, 'unifiedLogin'])->name('login.unified');
+
+// Register dosen routes
+Route::get('/register-dosen', [Controller::class, 'showRegisterDosen'])->name('register.dosen');
+Route::post('/register-dosen', [Controller::class, 'registerDosen'])->name('register.dosen.store');
 
 // Mahasiswa
 Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
@@ -60,6 +69,6 @@ Route::get('/api/get-jsa-count', [JSAController::class, 'getJsaCount'])->name('a
 Route::prefix('dosen')->group(function () {
     Route::get('/dashboard', function () {
         return view('dosen.dashboard');
-    })->name('dosen.dashboard')->middleware(['auth:dosen', 'role:dosen', 'log.activity']);
-    Route::post('/logout', [DosenController::class, 'logout'])->name('dosen.logout')->middleware('auth:dosen');
+    })->name('dosen.dashboard')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/logout', [DosenController::class, 'logout'])->name('dosen.logout')->middleware('auth');
 });

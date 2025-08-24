@@ -12,26 +12,24 @@ use App\Http\Controllers\JSAController;
 
 Route::get('/', function () {
     return view('home');
-});
-
-
+})->middleware('prevent.back');
 
 // Unified login route
 Route::post('/login', [Controller::class, 'unifiedLogin'])->name('login.unified');
 
 // Mahasiswa
 Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
-    Route::get('/dashboard', 'dashboard')->name('mahasiswa.dashboard');
-    Route::post('/logout', 'logout')->name('mahasiswa.logout');
+    Route::get('/dashboard', 'dashboard')->name('mahasiswa.dashboard')->middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity']);
+    Route::post('/logout', 'logout')->name('mahasiswa.logout')->middleware('auth:mahasiswa');
 });
 
 // Endpoint data untuk dashboard (AJAX)
-Route::get('/mahasiswa/jsa-data', [JSAController::class, 'getForMahasiswa'])->middleware('auth:mahasiswa');
+Route::get('/mahasiswa/jsa-data', [JSAController::class, 'getForMahasiswa'])->middleware(['auth:mahasiswa', 'role:mahasiswa']);
 
 // API untuk mata kuliah berdasarkan semester dan kelas
 Route::get('/api/mata-kuliah/{semester}/{kelas}', [JSAController::class, 'getMataKuliah'])->name('api.mata-kuliah');
 
-Route::middleware('auth:mahasiswa')->group(function () {
+Route::middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity'])->group(function () {
     // Tampilkan form tambah JSA (mengirim data mahasiswa & dosen ke view)
     Route::get('/mahasiswa/tambahjsa', [JSAController::class, 'create'])->name('mahasiswa.tambahjsa');
 
@@ -62,6 +60,6 @@ Route::get('/api/get-jsa-count', [JSAController::class, 'getJsaCount'])->name('a
 Route::prefix('dosen')->group(function () {
     Route::get('/dashboard', function () {
         return view('dosen.dashboard');
-    })->name('dosen.dashboard');
-    Route::post('/logout', [DosenController::class, 'logout'])->name('dosen.logout');
+    })->name('dosen.dashboard')->middleware(['auth:dosen', 'role:dosen', 'log.activity']);
+    Route::post('/logout', [DosenController::class, 'logout'])->name('dosen.logout')->middleware('auth:dosen');
 });

@@ -14,12 +14,6 @@ class DosenSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // matikan cek FK
-        DB::table('dosens')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // aktifkan lagi cek FK
-        // Ambil semua NIP yang sudah ada
-        $existingDosen = DB::table('dosens')->pluck('nip')->toArray();
-
         // Data dosen baru
         $dosenData = [
             ['nip' => '19790124 200501 1 009', 'nama' => 'Andriyanto, ST.,MT'],
@@ -43,7 +37,10 @@ class DosenSeeder extends Seeder
             $nip = trim($dosen['nip']);
             $nama = trim($dosen['nama']);
 
-            if (!in_array($nip, $existingDosen)) {
+            // Cek apakah dosen sudah ada
+            $existingDosen = DB::table('dosens')->where('nip', $nip)->first();
+            
+            if (!$existingDosen) {
                 DB::table('dosens')->insert([
                     'nip' => $nip,
                     'nama' => $nama,

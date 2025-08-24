@@ -467,6 +467,11 @@
                             </div>
                         </button>
                     </form>
+                    
+                    <div class="info-text">
+                        <p><strong>Untuk Mahasiswa:</strong> Login menggunakan NIM dan password (sama dengan NIM)</p>
+                        <p><strong>Untuk Dosen:</strong> Login menggunakan NIP dan password yang telah diberikan</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -487,8 +492,6 @@
             loading.style.display = 'block';
             btn.disabled = true;
         });
-
-
 
         // Add floating animation to shapes
         const shapes = document.querySelectorAll('.shape');

@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Daftarkan middleware custom
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+            'log.activity' => \App\Http\Middleware\LogUserActivity::class,
+            'prevent.back' => \App\Http\Middleware\PreventBackButton::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

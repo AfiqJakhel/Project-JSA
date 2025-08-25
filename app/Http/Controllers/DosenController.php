@@ -9,6 +9,7 @@ use App\Models\Dosen;
 use App\Models\Jsa;
 use App\Models\MataKuliah;
 
+
 class DosenController extends Controller
 {
     /**
@@ -149,5 +150,19 @@ class DosenController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    /**
+     * Generate PDF JSA
+     */
+    public function generatePDF($id)
+    {
+        $jsa = Jsa::with(['mahasiswas', 'dosens', 'workSteps', 'apds', 'inspections'])->findOrFail($id);
+        
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.jsa-template', compact('jsa'));
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->download('JSA-' . $jsa->no_jsa . '.pdf');
+        
+
     }
 }

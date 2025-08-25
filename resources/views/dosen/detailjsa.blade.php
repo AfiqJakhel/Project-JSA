@@ -477,6 +477,28 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
         }
+        
+        /* Styling untuk section Generate PDF di luar form */
+        .generate-pdf-section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .generate-pdf-section .btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5) !important;
+            background: linear-gradient(135deg, #0056b3, #004085) !important;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -888,6 +910,18 @@
                         </form>
                     @endif
                 </div>
+                
+                <!-- Generate PDF Section - Outside form to avoid CSS conflicts -->
+                @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui')
+                    <div class="generate-pdf-section" style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">
+                            <i class="fas fa-file-pdf"></i> Klik Tombol Dibawah Untuk Generate PDF JSA
+                        </h3>
+                        <a href="{{ route('dosen.generate-pdf', $jsa->id) }}" class="btn btn-primary btn-lg" target="_blank" style="font-size: 1.1rem; padding: 15px 30px; background: linear-gradient(135deg, #007bff, #0056b3); border: none; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); transition: all 0.3s ease;">
+                            <i class="fas fa-file-pdf"></i> Generate PDF
+                        </a>
+                    </div>
+                @endif
             </div>
         </main>
     </div>

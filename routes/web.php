@@ -54,6 +54,9 @@ Route::middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity'])->group(f
     // Update JSA via form (memanggil method update yang sudah ada di controller)
     Route::put('/mahasiswa/jsa/{id}', [JSAController::class, 'update'])->name('mahasiswa.jsa.update');
 
+    // Generate PDF for mahasiswa
+    Route::get('/mahasiswa/jsa/{id}/pdf', [DosenController::class, 'generatePDF'])->name('mahasiswa.generate-pdf');
+
     // Optional: hapus sudah ada sebelumnya
     Route::delete('/mahasiswa/jsa/{id}', [JSAController::class, 'destroy'])->name('mahasiswa.jsa.destroy');
     
@@ -68,12 +71,24 @@ Route::get('/api/search-dosen', [JSAController::class, 'searchDosen'])->name('ap
 // API untuk get JSA count (tidak perlu auth karena digunakan untuk preview)
 Route::get('/api/get-jsa-count', [JSAController::class, 'getJsaCount'])->name('api.get.jsa.count')->middleware('throttle:120,1');
 
+// Test PDF generation
+Route::get('/test-pdf', [App\Http\Controllers\TestController::class, 'testPDF'])->name('test.pdf');
+
+// System settings routes
+Route::post('/upload-logo', [App\Http\Controllers\SystemController::class, 'uploadLogo'])->name('upload.logo');
+Route::get('/get-logo', [App\Http\Controllers\SystemController::class, 'getLogo'])->name('get.logo');
+Route::delete('/delete-logo', [App\Http\Controllers\SystemController::class, 'deleteLogo'])->name('delete.logo');
+Route::get('/logo-management', function() {
+    return view('admin.logo-management');
+})->name('logo.management');
+
 // Dosen
 Route::prefix('dosen')->controller(DosenController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dosen.dashboard')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/jsa/{id}', 'detailJsa')->name('dosen.detailjsa')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::post('/jsa/{id}/approve', 'approveJsa')->name('dosen.approvejsa')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::post('/jsa/{id}/revise', 'reviseJsa')->name('dosen.revisejsa')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::get('/jsa/{id}/pdf', 'generatePDF')->name('dosen.generate-pdf')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/profile', 'profile')->name('dosen.profile')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/profile/edit', 'editProfile')->name('dosen.edit-profile')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::post('/profile/update', 'updateProfile')->name('dosen.update-profile')->middleware(['auth', 'role:dosen', 'log.activity']);

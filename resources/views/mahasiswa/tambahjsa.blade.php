@@ -1344,7 +1344,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="lokasi_pekerjaan">Lokasi</label>
-                            <input type="text" id="lokasi_pekerjaan" name="lokasi_pekerjaan" class="form-input" placeholder="Masukkan lokasi pekerjaan" value="{{ old('lokasi_pekerjaan') }}" required>
+                            <select id="lokasi_pekerjaan" name="lokasi_pekerjaan" class="form-select" required>
+                                <option value="">Pilih lokasi pekerjaan</option>
+                                <option value="Workshop" {{ old('lokasi_pekerjaan') == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+                                <option value="Hangar" {{ old('lokasi_pekerjaan') == 'Hangar' ? 'selected' : '' }}>Hangar</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="tanggal_pelaksanaan">Tanggal Pekerjaan</label>

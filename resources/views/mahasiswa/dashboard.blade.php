@@ -103,12 +103,21 @@
         }
 
         .header-content {
-            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 20px 0 20px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            margin-left: 2rem;
             align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-right: -40rem;
+            padding-right: 0;
         }
 
         .header-title {
@@ -126,8 +135,10 @@
             50% { background-position: 100% 50%; }
         }
 
+
+
         main {
-            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             padding: 30px 20px;
             position: relative;
@@ -143,6 +154,7 @@
                 0 25px 45px rgba(0, 0, 0, 0.1),
                 0 0 0 1px rgba(255, 255, 255, 0.2);
             margin-bottom: 30px;
+            width: 100%;
         }
 
         .top-bar {
@@ -187,11 +199,69 @@
 
         .logout-btn {
             background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .logout-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-profile {
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-profile:hover {
+            background-color: #2980b9;
+        }
+
+
+
+        .user-avatar-link {
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar-link:hover {
+            transform: scale(1.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #004d40;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .btn-tambah-jsa {
@@ -199,7 +269,7 @@
         }
 
         .btn-tambah-jsa:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);
         }
 
@@ -209,6 +279,7 @@
             margin-bottom: 25px;
             flex-wrap: wrap;
             align-items: center;
+            width: 100%;
         }
 
         .filter-input {
@@ -281,6 +352,7 @@
             border-radius: 15px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
         }
 
         table {
@@ -532,15 +604,21 @@
 <header>
         <div class="header-content">
             <h1 class="header-title">Selamat Datang, {{ $mahasiswa->nama ?? 'Mahasiswa' }}</h1>
+            <div class="user-info">
+                <span>{{ $mahasiswa->nama }}</span>
+                <a href="{{ route('mahasiswa.profile') }}" class="user-avatar-link">
+                    <div class="user-avatar">
+                        {{ substr($mahasiswa->nama, 0, 1) }}
+                    </div>
+                </a>
+            </div>
         </div>
 </header>
 
 <main>
         <div class="dashboard-container">
     <div class="top-bar">
-                <button class="btn logout-btn" onclick="showModal()">
-                    <span class="btn-text">Logout</span>
-                </button>
+                <button class="btn logout-btn" onclick="showModal()">Logout</button>
                 <a href="{{ url('mahasiswa/tambahjsa') }}" class="btn btn-tambah-jsa">+ Tambah JSA</a>
     </div>
 

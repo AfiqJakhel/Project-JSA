@@ -29,6 +29,9 @@ Route::post('/register-dosen', [Controller::class, 'registerDosen'])->name('regi
 // Mahasiswa
 Route::prefix('mahasiswa')->controller(MahasiswaController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('mahasiswa.dashboard')->middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity']);
+    Route::get('/profile', 'profile')->name('mahasiswa.profile')->middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity']);
+    Route::get('/profile/edit', 'editProfile')->name('mahasiswa.edit-profile')->middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity']);
+    Route::post('/profile/update', 'updateProfile')->name('mahasiswa.update-profile')->middleware(['auth:mahasiswa', 'role:mahasiswa', 'log.activity']);
     Route::post('/logout', 'logout')->name('mahasiswa.logout')->middleware('auth:mahasiswa');
 });
 
@@ -66,9 +69,13 @@ Route::get('/api/search-dosen', [JSAController::class, 'searchDosen'])->name('ap
 Route::get('/api/get-jsa-count', [JSAController::class, 'getJsaCount'])->name('api.get.jsa.count')->middleware('throttle:120,1');
 
 // Dosen
-Route::prefix('dosen')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dosen.dashboard');
-    })->name('dosen.dashboard')->middleware(['auth', 'role:dosen', 'log.activity']);
-    Route::post('/logout', [DosenController::class, 'logout'])->name('dosen.logout')->middleware('auth');
+Route::prefix('dosen')->controller(DosenController::class)->group(function () {
+    Route::get('/dashboard', 'dashboard')->name('dosen.dashboard')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::get('/jsa/{id}', 'detailJsa')->name('dosen.detailjsa')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/jsa/{id}/approve', 'approveJsa')->name('dosen.approvejsa')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/jsa/{id}/reject', 'rejectJsa')->name('dosen.rejectjsa')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::get('/profile', 'profile')->name('dosen.profile')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::get('/profile/edit', 'editProfile')->name('dosen.edit-profile')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/profile/update', 'updateProfile')->name('dosen.update-profile')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/logout', 'logout')->name('dosen.logout')->middleware('auth');
 });

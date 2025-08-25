@@ -11,7 +11,7 @@ class Jsa extends Model
 
     protected $fillable = [
         'kelas',
-        'prodi',
+        'semester',
         'matakuliah',
         'no_jsa',
         'nama_pekerjaan',

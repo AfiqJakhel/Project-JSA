@@ -17,6 +17,7 @@
             min-height: 100vh;
             color: white;
             overflow-x: hidden;
+            overflow-y: auto;
         }
 
         /* Animated Background Shapes */
@@ -329,12 +330,14 @@
             box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
         }
 
-                 .jsa-grid {
-             display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-             gap: 1.5rem;
-             margin-top: 1.5rem;
-         }
+                         .jsa-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+
 
                  .jsa-card {
              background: rgba(255, 255, 255, 0.1);
@@ -346,6 +349,7 @@
              border: 1px solid rgba(255, 255, 255, 0.2);
              position: relative;
              overflow: hidden;
+             min-height: 250px;
          }
 
                  .jsa-card:hover {
@@ -420,25 +424,20 @@
              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
          }
 
-                 .status-menunggu {
-             background: linear-gradient(45deg, #ff8c00, #ffa500);
-             color: white;
-         }
+        .status-menunggu {
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
+            color: white;
+        }
 
-         .status-approved {
-             background: linear-gradient(45deg, #32cd32, #228b22);
-             color: white;
-         }
+        .status-disetujui {
+            background: linear-gradient(45deg, #32cd32, #228b22);
+            color: white;
+        }
 
-         .status-revisi {
-             background: linear-gradient(45deg, #dc143c, #b22222);
-             color: white;
-         }
-
-         .status-rejected {
-             background: linear-gradient(45deg, #dc143c, #b22222);
-             color: white;
-         }
+        .status-revisi {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
 
                  .jsa-actions {
              display: flex;
@@ -492,6 +491,16 @@
         .btn-danger:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
         }
 
         .empty-state {
@@ -586,41 +595,44 @@
             box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
         }
 
-                 @media (max-width: 768px) {
-             .container {
-                 padding: 1rem;
-             }
-             
-             .filter-form {
-                 flex-direction: column;
-                 align-items: stretch;
-             }
-             
-             .jsa-grid {
-                 grid-template-columns: 1fr;
-                 gap: 1.5rem;
-                 margin-top: 1.5rem;
-             }
-             
-             .jsa-details {
-                 grid-template-columns: repeat(3, 1fr);
-                 gap: 0.5rem;
-             }
-             
-             .jsa-header {
-                 flex-direction: column;
-                 gap: 0.5rem;
-             }
-             
-             .jsa-actions {
-                 flex-direction: column;
-                 gap: 0.5rem;
-             }
-             
-             .detail-item {
-                 padding: 0.4rem;
-             }
-         }
+                         @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .jsa-grid {
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .jsa-details {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .jsa-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .jsa-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .detail-item {
+                padding: 0.4rem;
+            }
+            
+            .jsa-card {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -677,6 +689,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="status">Filter Status:</label>
+                        <select name="status" id="status">
+                            <option value="">Semua Status</option>
+                            <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                            <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="revisi" {{ request('status') == 'revisi' ? 'selected' : '' }}>Revisi</option>
+                        </select>
+                    </div>
                     <button type="submit" class="filter-btn">Filter</button>
                     <a href="{{ route('dosen.dashboard') }}" class="clear-btn">Clear</a>
                 </form>
@@ -692,7 +713,7 @@
                                     <div class="jsa-title">{{ $jsa->nama_pekerjaan }}</div>
                                     <div class="jsa-no">No. JSA: {{ $jsa->no_jsa }}</div>
                                 </div>
-                                <span class="status-badge status-{{ $jsa->status }}">
+                                <span class="status-badge status-{{ strtolower($jsa->status) }}">
                                     {{ ucfirst($jsa->status) }}
                                 </span>
                             </div>
@@ -707,8 +728,8 @@
                                     <span class="detail-value">{{ $jsa->kelas }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span class="detail-label">Program Studi</span>
-                                    <span class="detail-value">{{ $jsa->prodi }}</span>
+                                    <span class="detail-label">Semester</span>
+                                    <span class="detail-value">{{ $jsa->semester }}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Lokasi Pekerjaan</span>
@@ -735,17 +756,24 @@
                                     Lihat Detail
                                 </a>
                                 
-                                @if($jsa->status === 'menunggu')
+                                @if($jsa->status === 'menunggu' || $jsa->status === 'Menunggu')
                                     <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin approve JSA ini?')">
-                                            Approve
+                                        <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui JSA ini?')">
+                                            Disetujui
                                         </button>
                                     </form>
-                                    <form method="POST" action="{{ route('dosen.rejectjsa', $jsa->id) }}" style="display: inline;">
+                                    <form method="POST" action="{{ route('dosen.revisejsa', $jsa->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin reject JSA ini?')">
-                                            Reject
+                                        <button type="submit" class="btn btn-warning" onclick="return confirm('Apakah Anda yakin ingin mengirim JSA ini untuk revisi?')">
+                                            Revisi
+                                        </button>
+                                    </form>
+                                @elseif($jsa->status === 'revisi' || $jsa->status === 'Revisi')
+                                    <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui JSA ini?')">
+                                            Disetujui
                                         </button>
                                     </form>
                                 @endif

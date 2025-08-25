@@ -73,7 +73,7 @@ Route::prefix('dosen')->controller(DosenController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dosen.dashboard')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/jsa/{id}', 'detailJsa')->name('dosen.detailjsa')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::post('/jsa/{id}/approve', 'approveJsa')->name('dosen.approvejsa')->middleware(['auth', 'role:dosen', 'log.activity']);
-    Route::post('/jsa/{id}/reject', 'rejectJsa')->name('dosen.rejectjsa')->middleware(['auth', 'role:dosen', 'log.activity']);
+    Route::post('/jsa/{id}/revise', 'reviseJsa')->name('dosen.revisejsa')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/profile', 'profile')->name('dosen.profile')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::get('/profile/edit', 'editProfile')->name('dosen.edit-profile')->middleware(['auth', 'role:dosen', 'log.activity']);
     Route::post('/profile/update', 'updateProfile')->name('dosen.update-profile')->middleware(['auth', 'role:dosen', 'log.activity']);

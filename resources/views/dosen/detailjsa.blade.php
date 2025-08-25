@@ -1,9 +1,12 @@
+{{-- resources/views/dosen/detailjsa.blade.php --}}
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail JSA - Dashboard Dosen</title>
+    <title>Detail JSA - Dosen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -40,47 +43,31 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            animation: float 4s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite;
         }
 
         .shape:nth-child(1) {
-            width: 60px;
-            height: 60px;
-            top: 15%;
-            left: 5%;
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
             animation-delay: 0s;
         }
 
         .shape:nth-child(2) {
-            width: 80px;
-            height: 80px;
-            top: 70%;
-            right: 5%;
-            animation-delay: 1s;
-        }
-
-        .shape:nth-child(3) {
-            width: 40px;
-            height: 40px;
-            top: 85%;
-            left: 15%;
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
             animation-delay: 2s;
         }
 
-        .shape:nth-child(4) {
-            width: 70px;
-            height: 70px;
-            top: 8%;
-            right: 25%;
-            animation-delay: 0.5s;
-        }
-
-        .shape:nth-child(5) {
-            width: 50px;
-            height: 50px;
-            top: 45%;
-            left: 70%;
-            animation-delay: 1.5s;
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
         }
 
         @keyframes float {
@@ -88,183 +75,342 @@
             50% { transform: translateY(-20px); }
         }
 
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 0;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            max-width: 1200px;
+        /* Container */
+        .container {
+            width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
-        .header-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 2s ease infinite;
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .back-btn {
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
+            padding: 10px 20px;
+            border-radius: 25px;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        /* Main Content */
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .jsa-container {
+        /* Content Container */
+        .content-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 
-                0 25px 45px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
 
-        .jsa-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .jsa-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .jsa-no {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 600;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-menunggu {
-            background: linear-gradient(45deg, #f39c12, #e67e22);
-            color: white;
-        }
-
-        .status-approved {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: white;
-        }
-
-        .status-rejected {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-        }
-
-        .jsa-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .detail-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .content-section {
+            margin-bottom: 40px;
         }
 
         .section-title {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 600;
+            margin-bottom: 25px;
             color: white;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .detail-item {
+        .section-title i {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Form-like Display Styles */
+        .form-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
         }
 
-        .detail-label {
+        .form-label {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 8px;
             font-size: 0.9rem;
+        }
+
+        .form-display-value {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* List Container Styles */
+        .list-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .list-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .list-title {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .list-subtitle {
             color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .list-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .list-detail {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        .list-detail-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .list-detail-value {
+            color: white;
+            font-size: 1rem;
+            line-height: 2.5;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .detail-value {
-            font-size: 1rem;
+        .status-menunggu {
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
             color: white;
-            font-weight: 500;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .jsa-actions {
+        .status-disetujui {
+            background: linear-gradient(45deg, #32cd32, #228b22);
+            color: white;
+        }
+
+        .status-revisi {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        /* Work Steps Section */
+        .work-step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .work-step-description {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 2;
+        }
+
+        /* APD Section */
+        .apd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            min-height: 120px;
+            gap: 10px;
+        }
+
+        .apd-check-item {
             display: flex;
-            gap: 1rem;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        .apd-check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .apd-check-available {
+            background: linear-gradient(45deg, #32cd32, #228b22);
+            color: white;
+        }
+
+        .apd-check-unavailable {
+            background: linear-gradient(45deg, #dc143c, #b22222);
+            color: white;
+        }
+
+        .apd-item-name {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Inspection Section */
+        .inspection-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .inspection-table th,
+        .inspection-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .inspection-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            color: white;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .inspection-table td {
+            color: white;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .inspection-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .inspection-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .inspection-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .inspection-status-ok {
+            background: linear-gradient(45deg, #32cd32, #228b22);
+            color: white;
+        }
+
+        .inspection-status-ng {
+            background: linear-gradient(45deg, #dc143c, #b22222);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn {
@@ -278,8 +424,6 @@
             display: inline-block;
             text-align: center;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -290,8 +434,8 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
         }
 
         .btn-success {
@@ -300,8 +444,8 @@
         }
 
         .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
         }
 
         .btn-danger {
@@ -310,8 +454,18 @@
         }
 
         .btn-danger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
         }
 
         .btn-secondary {
@@ -320,36 +474,68 @@
         }
 
         .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(149, 165, 166, 0.3);
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            position: relative;
-            z-index: 2;
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .jsa-container {
+            .container {
+                padding: 15px;
+            }
+            
+            .content-container {
                 padding: 20px;
             }
             
-            .jsa-header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .jsa-details {
+            .form-row {
                 grid-template-columns: 1fr;
             }
             
-            .jsa-actions {
-                flex-direction: column;
+            .list-details {
+                grid-template-columns: 1fr;
             }
+            
+            .apd-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .inspection-table {
+                font-size: 0.8rem;
+            }
+            
+            .inspection-table th,
+            .inspection-table td {
+                padding: 8px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
         }
     </style>
 </head>
@@ -359,124 +545,353 @@
             <div class="shape"></div>
             <div class="shape"></div>
             <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
         </div>
     </div>
 
-    <header>
-        <div class="header-content">
-            <h1 class="header-title">Detail JSA</h1>
-            <a href="{{ route('dosen.dashboard') }}" class="back-btn">Kembali ke Dashboard</a>
+    <div class="container">
+        <div class="header">
+            <a href="{{ route('dosen.dashboard') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+            </a>
+            <h1>Detail JSA</h1>
+            <p>Informasi lengkap Job Safety Analysis</p>
         </div>
-    </header>
 
-    <main>
-        <div class="jsa-container">
-            <div class="jsa-header">
-                <div>
-                    <h1 class="jsa-title">{{ $jsa->nama_pekerjaan }}</h1>
-                    <div class="jsa-no">No. JSA: {{ $jsa->no_jsa }}</div>
+        <main>
+            <div class="content-container">
+                <!-- Basic Information Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Informasi Dasar
+                    </h2>
+                    <div class="form-display">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nomor JSA</label>
+                                <div class="form-display-value">{{ $jsa->no_jsa }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <div class="form-display-value">
+                                    {{ ucfirst($jsa->status) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nama Pekerjaan</label>
+                                <div class="form-display-value">{{ $jsa->nama_pekerjaan }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mata Kuliah</label>
+                                <div class="form-display-value">{{ $jsa->matakuliah }}</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Semester</label>
+                                <div class="form-display-value">{{ $jsa->semester }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Kelas</label>
+                                <div class="form-display-value">{{ $jsa->kelas }}</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Lokasi Pekerjaan</label>
+                                <div class="form-display-value">{{ $jsa->lokasi_pekerjaan }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tanggal Pelaksanaan</label>
+                                <div class="form-display-value">{{ $jsa->tanggal_pelaksanaan }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <span class="status-badge status-{{ $jsa->status }}">
-                    {{ ucfirst($jsa->status) }}
-                </span>
-            </div>
 
-            <div class="jsa-details">
-                <div class="detail-section">
-                    <h2 class="section-title">Informasi Umum</h2>
-                    <div class="detail-item">
-                        <span class="detail-label">Mata Kuliah</span>
-                        <div class="detail-value">{{ $jsa->matakuliah }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Kelas</span>
-                        <div class="detail-value">{{ $jsa->kelas }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Program Studi</span>
-                        <div class="detail-value">{{ $jsa->prodi }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Semester</span>
-                        <div class="detail-value">{{ $jsa->semester }}</div>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h2 class="section-title">Detail Pekerjaan</h2>
-                    <div class="detail-item">
-                        <span class="detail-label">Lokasi Pekerjaan</span>
-                        <div class="detail-value">{{ $jsa->lokasi_pekerjaan }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Tanggal Pelaksanaan</span>
-                        <div class="detail-value">{{ $jsa->tanggal_pelaksanaan }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Status</span>
-                        <div class="detail-value">{{ ucfirst($jsa->status) }}</div>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h2 class="section-title">Mahasiswa Terlibat</h2>
+                <!-- Mahasiswa Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Mahasiswa Terlibat
+                    </h2>
                     @if($jsa->mahasiswas->count() > 0)
-                        @foreach($jsa->mahasiswas as $mahasiswa)
-                            <div class="detail-item">
-                                <span class="detail-label">{{ $mahasiswa->nim }}</span>
-                                <div class="detail-value">{{ $mahasiswa->nama }}</div>
-                            </div>
-                        @endforeach
+                        <div class="list-container">
+                            @foreach($jsa->mahasiswas as $mahasiswa)
+                                <div class="list-item">
+                                    <div class="list-header">
+                                        <div class="list-title">{{ $mahasiswa->nama }}</div>
+                                        <div class="list-subtitle">{{ $mahasiswa->nim }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     @else
-                        <div class="detail-item">
-                            <span class="detail-label">Tidak ada mahasiswa</span>
-                            <div class="detail-value">-</div>
+                        <div class="empty-state">
+                            <i class="fas fa-users"></i>
+                            <h3>Tidak ada mahasiswa</h3>
+                            <p>Belum ada mahasiswa yang terlibat dalam JSA ini.</p>
                         </div>
                     @endif
                 </div>
 
-                <div class="detail-section">
-                    <h2 class="section-title">Dosen Pembimbing</h2>
+                <!-- Dosen Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Dosen Pembimbing
+                    </h2>
                     @if($jsa->dosens->count() > 0)
-                        @foreach($jsa->dosens as $dosen)
-                            <div class="detail-item">
-                                <span class="detail-label">{{ $dosen->nip ?? 'NIP tidak tersedia' }}</span>
-                                <div class="detail-value">{{ $dosen->name }}</div>
-                            </div>
-                        @endforeach
+                        <div class="list-container">
+                            @foreach($jsa->dosens as $dosen)
+                                <div class="list-item">
+                                    <div class="list-header">
+                                        <div class="list-title">{{ $dosen->nama }}</div>
+                                        <div class="list-subtitle">{{ $dosen->nip ?? 'NIP tidak tersedia' }}</div>
+                                    </div>
+                                    @if($dosen->pivot->catatan_dsn && $dosen->pivot->catatan_dsn !== 'Menunggu Catatan Dosen')
+                                        <div class="list-details">
+                                            <div class="list-detail">
+                                                <div class="list-detail-label">Catatan Dosen</div>
+                                                <div class="list-detail-value">{{ $dosen->pivot->catatan_dsn }}</div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
                     @else
-                        <div class="detail-item">
-                            <span class="detail-label">Tidak ada dosen</span>
-                            <div class="detail-value">-</div>
+                        <div class="empty-state">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <h3>Tidak ada dosen</h3>
+                            <p>Belum ada dosen pembimbing yang ditugaskan.</p>
                         </div>
                     @endif
                 </div>
-            </div>
 
-            <div class="jsa-actions">
-                @if($jsa->status === 'menunggu')
-                    <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin approve JSA ini?')">
-                            Approve JSA
-                        </button>
-                    </form>
-                    <form method="POST" action="{{ route('dosen.rejectjsa', $jsa->id) }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin reject JSA ini?')">
-                            Reject JSA
-                        </button>
-                    </form>
-                @endif
-                <a href="{{ route('dosen.dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
-            </div>
-        </div>
-    </main>
+                <!-- Work Steps Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-tasks"></i>
+                        Langkah-langkah Pekerjaan
+                    </h2>
+                    @if($jsa->workSteps->count() > 0)
+                        <div class="list-container">
+                            @foreach($jsa->workSteps as $step)
+                                <div class="list-item">
+                                    <div class="list-header">
+                                        <div class="list-title">
+                                            <span class="work-step-number">Langkah {{ $step->step_number }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="work-step-description">{{ $step->step_description }}</div>
+                                    <div class="list-details">
+                                        <div class="list-detail">
+                                            <div class="list-detail-label">Potensi Bahaya</div>
+                                            <div class="list-detail-value">{{ $step->potensi_bahaya }}</div>
+                                        </div>
+                                        <div class="list-detail">
+                                            <div class="list-detail-label">Upaya Pengendalian</div>
+                                            <div class="list-detail-value">{{ $step->upaya_pengendalian }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Tidak ada langkah kerja</h3>
+                            <p>Belum ada langkah-langkah pekerjaan yang didefinisikan.</p>
+                        </div>
+                    @endif
+                </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }} Aplikasi JSA - Semua Hak Dilindungi</p>
-    </footer>
+                <!-- APD Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-hard-hat"></i>
+                        Kelengkapan APD
+                    </h2>
+                    @if($jsa->apds->count() > 0)
+                        <div class="list-container">
+                            @foreach($jsa->apds as $apd)
+                                @php $mahasiswa = $jsa->mahasiswas->where('id', $apd->id_mhs)->first(); @endphp
+                                @if($mahasiswa)
+                                    <div class="list-item">
+                                        <div class="list-header">
+                                            <div class="list-title">{{ $mahasiswa->nama }}</div>
+                                            <div class="list-subtitle">{{ $mahasiswa->nim }}</div>
+                                        </div>
+                                        <div class="apd-grid">
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_shelmet == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_shelmet == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Safety Helmet</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_sgloves == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_sgloves == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Safety Gloves</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_shoes == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_shoes == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Safety Shoes</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_sglasses == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_sglasses == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Safety Glasses</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_svest == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_svest == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Safety Vest</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_earplug == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_earplug == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Ear Plug</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_fmask == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_fmask == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Face Mask</span>
+                                            </div>
+                                            <div class="apd-check-item">
+                                                <div class="apd-check-icon {{ $apd->apd_respiratory == 'Ada' ? 'apd-check-available' : 'apd-check-unavailable' }}">
+                                                    <i class="fas {{ $apd->apd_respiratory == 'Ada' ? 'fa-check' : 'fa-times' }}"></i>
+                                                </div>
+                                                <span class="apd-item-name">Respiratory Protection</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <i class="fas fa-hard-hat"></i>
+                            <h3>Tidak ada data APD</h3>
+                            <p>Belum ada data kelengkapan APD yang diisi.</p>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Inspection Section -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        Hasil Inspeksi
+                    </h2>
+                    @if($jsa->inspections->count() > 0)
+                        <div class="list-container">
+                            @foreach($jsa->inspections->groupBy('area_inspeksi') as $area => $inspections)
+                                <div class="list-item">
+                                    <div class="list-header">
+                                        <div class="list-title">{{ $area }}</div>
+                                        <div class="list-subtitle">
+                                            {{ $inspections->first()->tanggal_selesai ? \Carbon\Carbon::parse($inspections->first()->tanggal_selesai)->format('d/m/Y') : 'Tanggal tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <table class="inspection-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Inspeksi</th>
+                                                <th>Standar Kebersihan</th>
+                                                <th>Hasil Pemeriksaan</th>
+                                                <th>Status</th>
+                                                <th>OK/NG</th>
+                                                <th>Tindakan Korektif</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($inspections as $inspection)
+                                                <tr>
+                                                    <td>{{ $inspection->item_inspeksi }}</td>
+                                                    <td>{{ $inspection->standar_kebersihan ?: 'Tidak diisi' }}</td>
+                                                    <td>{{ $inspection->hasil_pemeriksaan ?: 'Tidak diisi' }}</td>
+                                                    <td>{{ $inspection->status ?: 'Tidak diisi' }}</td>
+                                                    <td>
+                                                        <span class="inspection-status inspection-status-{{ strtolower($inspection->ok_ng) }}">
+                                                            {{ $inspection->ok_ng }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ $inspection->tindakan_korektif ?: 'Tidak diisi' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-check"></i>
+                            <h3>Tidak ada hasil inspeksi</h3>
+                            <p>Belum ada hasil inspeksi yang diisi.</p>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    @if($jsa->status === 'menunggu' || $jsa->status === 'Menunggu')
+                        <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui JSA ini?')">
+                                <i class="fas fa-check"></i> Disetujui
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ route('dosen.revisejsa', $jsa->id) }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Apakah Anda yakin ingin mengirim JSA ini untuk revisi?')">
+                                <i class="fas fa-edit"></i> Revisi
+                            </button>
+                        </form>
+                    @elseif($jsa->status === 'revisi' || $jsa->status === 'Revisi')
+                        <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui JSA ini?')">
+                                <i class="fas fa-check"></i> Disetujui
+                            </button>
+                        </form>
+                    @elseif($jsa->status === 'disetujui' || $jsa->status === 'Disetujui')
+                        <div style="color: rgba(255, 255, 255, 0.9); font-size: 1.5rem; text-align: center; padding: 30px; margin-bottom: 20px;">
+                            <i class="fas fa-check-circle" style="color: #27ae60; font-size: 3rem; margin-bottom: 15px;"></i>
+                            <br>
+                            <strong style="font-size: 1.8rem;">JSA telah disetujui</strong>
+                        </div>
+                    @else
+                        <!-- Fallback for unknown status -->
+                        <form method="POST" action="{{ route('dosen.approvejsa', $jsa->id) }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menyetujui JSA ini?')">
+                                <i class="fas fa-check"></i> Disetujui
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ route('dosen.revisejsa', $jsa->id) }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Apakah Anda yakin ingin mengirim JSA ini untuk revisi?')">
+                                <i class="fas fa-edit"></i> Revisi
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

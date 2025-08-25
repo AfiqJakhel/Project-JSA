@@ -27,6 +27,11 @@ class DosenController extends Controller
             $query->where('matakuliah', $request->matakuliah);
         }
         
+        // Filter berdasarkan status jika ada
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
         // Ambil semua JSA yang belum diapprove atau sudah diapprove
         $jsas = $query->orderBy('created_at', 'desc')->get();
         
@@ -49,9 +54,9 @@ class DosenController extends Controller
     {
         $jsa = Jsa::findOrFail($id);
         
-        // Update status JSA menjadi approved
+        // Update status JSA menjadi disetujui
         $jsa->update([
-            'status' => 'approved'
+            'status' => 'disetujui'
         ]);
         
         // Tambahkan catatan dosen jika ada
@@ -62,19 +67,19 @@ class DosenController extends Controller
             ]);
         }
         
-        return redirect()->back()->with('success', 'JSA berhasil diapprove!');
+        return redirect()->back()->with('success', 'JSA berhasil disetujui!');
     }
 
     /**
-     * Reject JSA
+     * Revise JSA
      */
-    public function rejectJsa(Request $request, $id)
+    public function reviseJsa(Request $request, $id)
     {
         $jsa = Jsa::findOrFail($id);
         
-        // Update status JSA menjadi rejected
+        // Update status JSA menjadi revisi
         $jsa->update([
-            'status' => 'rejected'
+            'status' => 'revisi'
         ]);
         
         // Tambahkan catatan dosen jika ada
@@ -85,7 +90,7 @@ class DosenController extends Controller
             ]);
         }
         
-        return redirect()->back()->with('success', 'JSA berhasil ditolak!');
+        return redirect()->back()->with('success', 'JSA berhasil dikirim untuk revisi!');
     }
 
     /**

@@ -174,7 +174,7 @@ class JSAController extends Controller
                     // 1. Simpan JSA (tanpa urutan_pekerjaan, potensi_bahaya, upaya_pengendalian)
                     $jsa = Jsa::create([
                         'kelas' => $request->kelas,
-                        'prodi' => $request->semester, // menggunakan semester sebagai prodi
+                        'semester' => $request->semester,
                         'matakuliah' => $request->matakuliah,
                         'no_jsa' => $noJsa,
                         'nama_pekerjaan' => $request->nama_pekerjaan,
@@ -519,7 +519,7 @@ public function detailView($id)
                 $jsa = Jsa::lockForUpdate()->findOrFail($id);
                 $jsa->update([
                     'kelas' => $request->kelas,
-                    'prodi' => $request->semester, // menggunakan semester sebagai prodi
+                    'semester' => $request->semester,
                     'matakuliah' => $request->matakuliah,
                     'nama_pekerjaan' => $request->nama_pekerjaan,
                     'lokasi_pekerjaan' => $request->lokasi_pekerjaan,

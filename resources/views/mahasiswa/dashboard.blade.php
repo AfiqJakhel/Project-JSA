@@ -392,21 +392,21 @@
         }
 
         .status-menunggu {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
+            background: linear-gradient(to right, #ff9900, #cc6600);
+            color: white;
             border: 1px solid rgba(255, 193, 7, 0.3);
         }
 
         .status-disetujui {
-            background: rgba(40, 167, 69, 0.2);
-            color: #28a745;
+            background: linear-gradient(to bottom right, #00b300, #009900, #077c07);
+            color: white;
             border: 1px solid rgba(40, 167, 69, 0.3);
         }
 
-        .status-ditolak {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid rgba(220, 53, 69, 0.3);
+        .status-revisi {
+            background: linear-gradient(to bottom right, #ff0000, #ff6666);
+            color:white;
+            border: 1px solid rgba(255, 107, 53, 0.3);
         }
 
         .action-buttons {
@@ -629,7 +629,7 @@
             <option value="">Semua Status</option>
             <option value="Menunggu">Menunggu</option>
             <option value="Disetujui">Disetujui</option>
-            <option value="Ditolak">Ditolak</option>
+            <option value="Revisi">Revisi</option>
         </select>
                 <button type="button" class="filter-btn" onclick="loadJsa()">Filter</button>
                 <button type="button" class="filter-btn" onclick="resetFilter()">Reset</button>
@@ -759,7 +759,7 @@ async function loadJsa() {
             switch(status?.toLowerCase()) {
                 case 'menunggu': return 'status-menunggu';
                 case 'disetujui': return 'status-disetujui';
-                case 'ditolak': return 'status-ditolak';
+                case 'revisi': return 'status-revisi';
                 default: return 'status-menunggu';
     }
 }

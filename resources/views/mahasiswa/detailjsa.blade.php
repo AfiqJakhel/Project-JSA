@@ -114,6 +114,8 @@
             border-radius: 20px;
             padding: 40px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-x: auto;
+            max-width: 100%;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
@@ -298,6 +300,129 @@
         }
 
         /* Firefox specific styling */
+        
+        /* Styling untuk form yang dinonaktifkan ketika JSA sudah disetujui */
+        form[style*="pointer-events: none"] input,
+        form[style*="pointer-events: none"] select,
+        form[style*="pointer-events: none"] textarea,
+        form[style*="pointer-events: none"] button {
+            pointer-events: none !important;
+            cursor: not-allowed !important;
+        }
+        
+        form[style*="pointer-events: none"] .form-input,
+        form[style*="pointer-events: none"] .form-select,
+        form[style*="pointer-events: none"] .form-textarea {
+            opacity: 0.9 !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+            font-weight: 500 !important;
+        }
+        
+        form[style*="pointer-events: none"] .form-label {
+            opacity: 1 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600 !important;
+        }
+        
+        form[style*="pointer-events: none"] .section-title {
+            opacity: 1 !important;
+            color: white !important;
+            font-weight: 700 !important;
+        }
+        
+        form[style*="pointer-events: none"] .btn {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+        }
+        
+        /* Styling khusus untuk form read-only yang lebih jelas */
+        .form-readonly {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .form-readonly .form-input,
+        .form-readonly .form-select,
+        .form-readonly .form-textarea {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+            font-weight: 500 !important;
+            opacity: 1 !important;
+        }
+        
+        .form-readonly .form-label {
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+            margin-bottom: 8px !important;
+        }
+        
+        .form-readonly .section-title {
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1.4rem !important;
+            margin-bottom: 20px !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+            padding: 15px 20px !important;
+            border-radius: 10px !important;
+            border-left: 4px solid #27ae60 !important;
+        }
+        
+        .form-readonly .form-section {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            padding: 25px !important;
+            margin-bottom: 25px !important;
+        }
+        
+        .form-readonly .form-row {
+            margin-bottom: 20px !important;
+        }
+        
+        .form-readonly .form-group {
+            margin-bottom: 15px !important;
+        }
+        
+        /* Styling untuk checkbox APD yang disabled */
+        .form-readonly .ppe-checkbox:disabled + .checkmark {
+            opacity: 0.7 !important;
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        .form-readonly .ppe-checkbox:disabled:checked + .checkmark {
+            background-color: rgba(39, 174, 96, 0.6) !important;
+            border-color: rgba(39, 174, 96, 0.8) !important;
+        }
+        
+        .form-readonly .ppe-checkbox:disabled + .checkmark:after {
+            border-color: white !important;
+        }
+        
+        .form-readonly .ppe-checkbox-label {
+            opacity: 0.9 !important;
+            cursor: not-allowed !important;
+        }
+        
+        /* Styling untuk button yang disabled */
+        .btn:disabled {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+        }
+        
+        .btn:disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
         .form-select:-moz-focusring {
             color: transparent;
             text-shadow: 0 0 0 white;
@@ -887,6 +1012,12 @@
 
         .inspection-area-details {
             display: none;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow-x: auto;
+            max-width: 100%;
         }
 
         .inspection-area-details.show {
@@ -899,7 +1030,8 @@
             margin-top: 15px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            overflow: hidden;
+            overflow: visible;
+            table-layout: auto;
         }
 
         .inspection-table th,
@@ -945,6 +1077,54 @@
         .inspection-table select option {
             background: rgba(30, 30, 47, 0.95);
             color: white;
+        }
+        
+        /* Responsive table styling */
+        @media (max-width: 1200px) {
+            .inspection-table {
+                font-size: 0.85rem;
+            }
+            
+            .inspection-table th,
+            .inspection-table td {
+                padding: 8px 6px;
+            }
+            
+            .inspection-table input,
+            .inspection-table textarea,
+            .inspection-table select {
+                font-size: 0.8rem;
+                padding: 6px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .inspection-area-details {
+                padding: 15px;
+                overflow-x: scroll;
+            }
+            
+            .inspection-table {
+                min-width: 800px;
+                font-size: 0.8rem;
+            }
+            
+            .inspection-table th,
+            .inspection-table td {
+                padding: 6px 4px;
+                white-space: nowrap;
+            }
+            
+            .inspection-table input,
+            .inspection-table textarea,
+            .inspection-table select {
+                font-size: 0.75rem;
+                padding: 4px;
+            }
+            
+            .inspection-table textarea {
+                min-height: 50px;
+            }
         }
 
         /* Button Styles */
@@ -1116,7 +1296,28 @@
                 </div>
             @endif
             
-            <form id="jsaForm" method="POST" action="{{ route('mahasiswa.jsa.update', $jsa->id) }}">
+            @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui')
+                <!-- JSA sudah disetujui - tampilkan pesan dan form read-only -->
+                <div class="alert alert-success mb-4" style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.3)); border: 2px solid rgba(39, 174, 96, 0.5); color: white; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="text-align: center; padding: 30px;">
+                        <i class="fas fa-check-circle" style="color: #27ae60; font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);"></i>
+                        <br>
+                        <strong style="font-size: 1.8rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">JSA telah disetujui</strong>
+                        <br>
+                        <p style="margin-top: 15px; opacity: 0.95; font-size: 1.1rem;">JSA ini tidak dapat diedit lagi karena sudah disetujui oleh dosen.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; display: inline-block;">
+                            <i class="fas fa-eye" style="margin-right: 8px;"></i>
+                            <span>Mode Tampilan Saja</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            
+            <form id="jsaForm" method="POST" action="{{ route('mahasiswa.jsa.update', $jsa->id) }}" 
+                  @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') 
+                      style="pointer-events: none;" 
+                      class="form-readonly"
+                  @endif>
                 @csrf
                 @method('PUT')
                 
@@ -1131,11 +1332,11 @@
                             <label class="form-label" for="semester">Semester</label>
                             <select id="semester" name="semester" class="form-select" required>
                                 <option value="">Pilih Semester</option>
-                                <option value="1" {{ old('semester', $jsa->prodi) == '1' ? 'selected' : '' }}>Semester Ganjil (1)</option>
-                                <option value="2" {{ old('semester', $jsa->prodi) == '2' ? 'selected' : '' }}>Semester Genap (2)</option>
-                                <option value="3" {{ old('semester', $jsa->prodi) == '3' ? 'selected' : '' }}>Semester Ganjil (3)</option>
-                                <option value="4" {{ old('semester', $jsa->prodi) == '4' ? 'selected' : '' }}>Semester Genap (4)</option>
-                                <option value="6" {{ old('semester', $jsa->prodi) == '6' ? 'selected' : '' }}>Semester Genap (6)</option>
+                                <option value="1" {{ old('semester', $jsa->semester) == '1' ? 'selected' : '' }}>Semester Ganjil (1)</option>
+                                <option value="2" {{ old('semester', $jsa->semester) == '2' ? 'selected' : '' }}>Semester Genap (2)</option>
+                                <option value="3" {{ old('semester', $jsa->semester) == '3' ? 'selected' : '' }}>Semester Ganjil (3)</option>
+                                <option value="4" {{ old('semester', $jsa->semester) == '4' ? 'selected' : '' }}>Semester Genap (4)</option>
+                                <option value="6" {{ old('semester', $jsa->semester) == '6' ? 'selected' : '' }}>Semester Genap (6)</option>
                             </select>
                         </div>
 
@@ -1144,7 +1345,7 @@
                             <select id="kelas" name="kelas" class="form-select" required>
                                 <option value="">Pilih Kelas</option>
                                 @php
-                                    $currentSemester = old('semester', $jsa->prodi);
+                                    $currentSemester = old('semester', $jsa->semester);
                                     $currentKelas = old('kelas', $jsa->kelas);
                                     
                                     // Debug: tampilkan nilai untuk debugging
@@ -1197,7 +1398,9 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Tanggal Pekerjaan</label>
-                            <input type="date" name="tanggal_pelaksanaan" class="form-input" value="{{ old('tanggal_pelaksanaan', optional($jsa->tanggal_pelaksanaan)->format('Y-m-d')) }}" required>
+                            <input type="date" name="tanggal_pelaksanaan" class="form-input" 
+                                   value="{{ old('tanggal_pelaksanaan', $jsa->tanggal_pelaksanaan ? \Carbon\Carbon::parse($jsa->tanggal_pelaksanaan)->format('Y-m-d') : '') }}" 
+                                   required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -1285,13 +1488,16 @@
                             <div class="ppe-section" data-mahasiswa-id="{{ $mahasiswa->id }}">
                                 <div class="ppe-header">
                                     <div class="ppe-title">APD untuk {{ $mahasiswa->nim }} - {{ $mahasiswa->nama }}</div>
-                                    <button type="button" class="btn btn-danger btn-sm btn-remove-ppe">Hapus</button>
+                                    @if($jsa->status !== 'disetujui' && $jsa->status !== 'Disetujui')
+                                        <button type="button" class="btn btn-danger btn-sm btn-remove-ppe">Hapus</button>
+                                    @endif
                                 </div>
                                 <div class="ppe-grid">
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_shelmet[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_shelmet == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_shelmet == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Safety Helmet
                                         </label>
@@ -1299,7 +1505,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_sgloves[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_sgloves == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_sgloves == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Safety Gloves
                                         </label>
@@ -1307,7 +1514,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_shoes[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_shoes == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_shoes == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Safety Shoes
                                         </label>
@@ -1315,7 +1523,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_sglasses[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_sglasses == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_sglasses == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Safety Glasses
                                         </label>
@@ -1325,7 +1534,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_svest[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_svest == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_svest == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Safety Vest
                                         </label>
@@ -1333,7 +1543,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_earplug[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_earplug == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_earplug == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Earplug
                                         </label>
@@ -1341,7 +1552,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_fmask[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_fmask == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_fmask == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Face Mask
                                         </label>
@@ -1349,7 +1561,8 @@
                                     <div class="ppe-item">
                                         <label class="ppe-checkbox-label">
                                             <input type="checkbox" name="apd_respiratory[]" class="ppe-checkbox" data-mahasiswa-id="{{ $mahasiswa->id }}"
-                                                   {{ $apd && $apd->apd_respiratory == 'Ada' ? 'checked' : '' }}>
+                                                   {{ $apd && $apd->apd_respiratory == 'Ada' ? 'checked' : '' }}
+                                                   @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                             <span class="checkmark"></span>
                                             Respiratory Protection
                                         </label>
@@ -1415,8 +1628,12 @@
                         <div class="form-group">
                             <label class="form-label">Tambah Area Inspeksi</label>
                             <div class="input-group">
-                                <input type="text" id="inspectionAreaInput" class="form-input" placeholder="Masukkan area inspeksi (contoh: Area Produksi, Area Penyimpanan, dll)">
-                                <button type="button" id="addInspectionArea" class="btn btn-primary">Tambah</button>
+                                <input type="text" id="inspectionAreaInput" class="form-input" placeholder="Masukkan area inspeksi (contoh: Area Produksi, Area Penyimpanan, dll)"
+                                       @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
+                                <button type="button" id="addInspectionArea" class="btn btn-primary" 
+                                        @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
+                                    Tambah
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1435,13 +1652,18 @@
                                 </div>
                                 <div class="inspection-area-actions">
                                     <button type="button" class="btn btn-primary btn-sm btn-toggle-inspection">Tutup Tabel</button>
-                                    <button type="button" class="btn btn-danger btn-sm btn-remove-area">Hapus</button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-remove-area" 
+                                            @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
+                                        Hapus
+                                    </button>
                                 </div>
                             </div>
                             <div class="inspection-area-details show">
                                 <div class="form-group">
                                     <label class="form-label">Tanggal Selesai</label>
-                                    <input type="date" name="tanggal_selesai[]" class="form-input" value="{{ old('tanggal_selesai.' . $loop->index, $inspections->first()->tanggal_selesai->format('Y-m-d')) }}">
+                                    <input type="date" name="tanggal_selesai[]" class="form-input" 
+                                           value="{{ old('tanggal_selesai.' . $loop->index, $inspections->first()->tanggal_selesai ? \Carbon\Carbon::parse($inspections->first()->tanggal_selesai)->format('Y-m-d') : '') }}"
+                                           @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                 </div>
                                 <table class="inspection-table">
                                     <thead>
@@ -1458,25 +1680,36 @@
                                     <tbody>
                                         @foreach($inspections as $inspection)
                                         <tr>
-                                            <td><input type="text" name="item_inspeksi[]" placeholder="Item inspeksi" value="{{ old('item_inspeksi.' . $loop->index, $inspection->item_inspeksi) }}"></td>
-                                            <td><textarea name="standar_kebersihan[]" placeholder="Standar kebersihan">{{ old('standar_kebersihan.' . $loop->index, $inspection->standar_kebersihan) }}</textarea></td>
-                                            <td><textarea name="hasil_pemeriksaan[]" placeholder="Hasil pemeriksaan">{{ old('hasil_pemeriksaan.' . $loop->index, $inspection->hasil_pemeriksaan) }}</textarea></td>
-                                            <td><input type="text" name="status[]" placeholder="Status" value="{{ old('status.' . $loop->index, $inspection->status) }}"></td>
+                                            <td><input type="text" name="item_inspeksi[]" placeholder="Item inspeksi" value="{{ old('item_inspeksi.' . $loop->index, $inspection->item_inspeksi) }}"
+                                                       @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif></td>
+                                            <td><textarea name="standar_kebersihan[]" placeholder="Standar kebersihan"
+                                                          @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>{{ old('standar_kebersihan.' . $loop->index, $inspection->standar_kebersihan) }}</textarea></td>
+                                            <td><textarea name="hasil_pemeriksaan[]" placeholder="Hasil pemeriksaan"
+                                                          @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>{{ old('hasil_pemeriksaan.' . $loop->index, $inspection->hasil_pemeriksaan) }}</textarea></td>
+                                            <td><input type="text" name="status[]" placeholder="Status" value="{{ old('status.' . $loop->index, $inspection->status) }}"
+                                                       @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif></td>
                                             <td>
-                                                <select name="ok_ng[]">
+                                                <select name="ok_ng[]" @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
                                                     <option value="OK" {{ old('ok_ng.' . $loop->index, $inspection->ok_ng) == 'OK' ? 'selected' : '' }}>OK</option>
                                                     <option value="NG" {{ old('ok_ng.' . $loop->index, $inspection->ok_ng) == 'NG' ? 'selected' : '' }}>NG</option>
                                                 </select>
                                             </td>
-                                            <td><textarea name="tindakan_korektif[]" placeholder="Tindakan korektif">{{ old('tindakan_korektif.' . $loop->index, $inspection->tindakan_korektif) }}</textarea></td>
+                                            <td><textarea name="tindakan_korektif[]" placeholder="Tindakan korektif"
+                                                          @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>{{ old('tindakan_korektif.' . $loop->index, $inspection->tindakan_korektif) }}</textarea></td>
                                             <td>
-                                                <button type="button" class="btn-remove-inspection-row btn btn-sm btn-danger">Hapus</button>
+                                                <button type="button" class="btn-remove-inspection-row btn btn-sm btn-danger" 
+                                                        @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
+                                                    Hapus
+                                                </button>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <button type="button" class="btn btn-primary btn-sm btn-add-inspection-row">Tambah Baris</button>
+                                <button type="button" class="btn btn-primary btn-sm btn-add-inspection-row" 
+                                        @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui') disabled @endif>
+                                    Tambah Baris
+                                </button>
                                 <input type="hidden" name="area_inspeksi[]" class="area-name-input" value="{{ old('area_inspeksi.' . $loop->index, $areaName) }}">
                             </div>
                         </div>
@@ -1486,14 +1719,22 @@
 
                 <!-- Submit Section -->
                 <div class="submit-section">
-                    <button type="submit" id="submitBtn" class="btn btn-submit">
-                        <span class="btn-text">
-                            <i class="fas fa-save"></i> Update JSA
-                        </span>
-                        <span class="loading">
-                            <i class="fas fa-spinner fa-spin"></i> Menyimpan...
-                        </span>
-                    </button>
+                    @if($jsa->status === 'disetujui' || $jsa->status === 'Disetujui')
+                        <!-- Button disabled untuk JSA yang sudah disetujui -->
+                        <button type="button" class="btn btn-secondary" disabled style="opacity: 0.6; cursor: not-allowed;">
+                            <i class="fas fa-lock"></i> JSA Telah Disetujui - Tidak Dapat Diedit
+                        </button>
+                    @else
+                        <!-- Button normal untuk JSA yang masih bisa diedit -->
+                        <button type="submit" id="submitBtn" class="btn btn-submit">
+                            <span class="btn-text">
+                                <i class="fas fa-save"></i> Update JSA
+                            </span>
+                            <span class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Menyimpan...
+                            </span>
+                        </button>
+                    @endif
                 </div>
             </form>
         </div>
